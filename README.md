@@ -2,9 +2,11 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](https://www.cs.helsinki.fi)
-* [Linkki dokumentaatiooni](https://www.github.com)
+* [Linkki sovellukseen](http://pmari.users.cs.helsinki.fi/tsoha)
+* [Linkki dokumentaatioon](https://github.com/BikkuMyy/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
 
 ## Työn aihe
 
-Laita tähän aihekuvaus tai [linkki valmiiseen aiheeseen](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pokemon-kanta.html) 
+### Ruoka-arkisto
+Ruoka-arkisto sisältää kunkin käyttäjän tallentamia ruokia ja niihin liittyviä tietoja. Käyttäjä voi hakea ruokalajeja joko lisäämistään tai kaikista järjestelmän ruokalajeista aineksien tai kategorioiden perusteella. Ruokalajeista ja niiden aineksista voi myös koostaa sekä halutessaan tulostaa ruoka- tai ostoslistoja. Järjestelmän käyttö vaatii
+sisäänkirjautumisen.
