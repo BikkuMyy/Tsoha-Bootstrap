@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Käyttäjän ruoka-arkisto</h1>
+
+  <p>
+    <a href="#" class="btn btn-success">Lisää ruoka</a>
+  </p>
+
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Nimi</th>
+        <th>Kategotria(t)</th>
+        <th>Pääraaka-aineet</th>
+        <th>Käyttökerrat</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td><a href="#">Makaroonilaatikko</a></td>
+        <td>Uuniruoka</td>
+        <td>Pasta, Jauheliha</td>
+        <td>2</td>
+        <th><a class="btn btn-default btn-sm" href="#">Muokkaa</a></th>
+      </tr>
+    </tbody>
+    <!-- {% for ruoka in ruoat %}
+      <tr>
+          
+          <td><a href="{{base_path}}/ruokalajit/{{ruoka.id}}">{{ruoka.nimi}}</td>
+        <td>{{ruoka.kayttokerrat}}</td>
+        <td>{{ruoka.kommentti}}</td>
+        
+        <th><a class="btn btn-default btn-sm" href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify">Muokkaa</a></th>
+      </tr>
+      {% endfor %}-->
+  </table>
+{% endblock %}
