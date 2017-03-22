@@ -11,7 +11,7 @@ class ArkistoController extends BaseController{
         View::make('login.html');
     }
     
-    public static function indexs() {
+    public static function index() {
         View::make('ruokalajit.html');
     }
     
