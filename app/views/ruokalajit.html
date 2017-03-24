@@ -1,40 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Käyttäjän ruoka-arkisto</h1>
+<h1>Käyttäjän ruoka-arkisto</h1>
 
-  <p>
+<p>
     <a href="#" class="btn btn-success">Lisää ruoka</a>
-  </p>
+</p>
 
-  <table class="table table-striped table-bordered">
+<table class="table table-striped table-bordered">
     <thead>
-      <tr>
-        <th>Nimi</th>
-        <th>Kategotria(t)</th>
-        <th>Pääraaka-aineet</th>
-        <th>Käyttökerrat</th>
-        <th></th>
-      </tr>
+        <tr>
+            <th>Nimi</th>
+            <th>Kategotriat</th>
+            <th>Pääraaka-aineet</th>
+            <th>Käyttökerrat</th>
+            <th>Kommentti</th>
+            <th>    </th>
+        </tr>
     </thead>
 
     <tbody>
-      <tr>
-        <td><a href="#">Makaroonilaatikko</a></td>
-        <td>Uuniruoka</td>
-        <td>Pasta, Jauheliha</td>
-        <td>2</td>
-        <th><a class="btn btn-default btn-sm" href="#">Muokkaa</a></th>
-      </tr>
+        {% for ruoka in ruoat %}
+        <tr>
+            <td><a href="{{base_path}}/ruokalajit/{{ruoka.id}}">{{ruoka.nimi}}</td>
+
+            {% for kategoria in ruoka.kategoriat %}
+            <td>{{kategoria}}</td>
+            {% endfor %}
+
+            {% for aines in ruoka.ainekset %}
+            <td>{{aines}}</td>
+            {% endfor %}
+
+            <td>{{ruoka.kayttokerrat}}</td>
+            <td>{{ruoka.kommentti}}</td>
+
+            <th><a class="btn btn-default btn-sm" href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify">Muokkaa</a></th>
+        </tr>
+        {% endfor %}
+
     </tbody>
-    <!-- {% for ruoka in ruoat %}
-      <tr>
-          
-          <td><a href="{{base_path}}/ruokalajit/{{ruoka.id}}">{{ruoka.nimi}}</td>
-        <td>{{ruoka.kayttokerrat}}</td>
-        <td>{{ruoka.kommentti}}</td>
-        
-        <th><a class="btn btn-default btn-sm" href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify">Muokkaa</a></th>
-      </tr>
-      {% endfor %}-->
-  </table>
+</table>
 {% endblock %}

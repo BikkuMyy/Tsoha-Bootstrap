@@ -8,6 +8,9 @@
 class Ruoka extends BaseModel {
 
     public $id, $nimi, $kayttokerrat, $kommentti, $kayttaja;
+    public $kategoriat;
+    public $ainekset;
+    
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -20,13 +23,15 @@ class Ruoka extends BaseModel {
         $ruoat = array();
 
         foreach ($rivit as $rivi) {
-            $ruoat[] = new Ruoka(array(
-                'id' => $rivi['id'],
+            $ruoka_id = $rivi['id'];
+            $ruoat[] = new Ruoka(array('id' => $ruoka_id,
                 'nimi' => $rivi['nimi'],
                 'kayttokerrat' => $rivi['kayttokerrat'],
                 'kommentti' => $rivi['kommentti'],
-                'kayttaja' => $rivi['kayttaja']
-            ));
+                'kayttaja' => $rivi['kayttaja'],
+                'kategoriat' => self::kategoriat($ruoka_id),
+                'ainekset' => self::ainekset($ruoka_id)
+                ));
         }
         
         return $ruoat;
@@ -44,7 +49,9 @@ class Ruoka extends BaseModel {
                 'nimi' => $rivi['nimi'],
                 'kayttokerrat' => $rivi['kayttokerrat'],
                 'kommentti' => $rivi['kommentti'],
-                'kayttaja' => $rivi['kayttaja']
+                'kayttaja' => $rivi['kayttaja'],
+                'kategoriat' => self::kategoriat($id),
+                'ainekset' => self::ainekset($id)
             ));
         }
         
@@ -64,5 +71,15 @@ class Ruoka extends BaseModel {
         $rivi = $query.fetch();
         $this->id = $rivi['id'];
     }
-
+    
+    //metodit kategorioiden ja aineksien hakemista varten
+    public static function kategoriat($id){
+        return Kategoria::kategoriat($id);
+        
+    }
+    
+    
+    public static function ainekset($id){
+        return Aines::ainekset($id);
+    }
 }

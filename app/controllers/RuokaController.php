@@ -8,7 +8,7 @@
 class RuokaController extends BaseController{
     
     public static function index(){
-        $ruoat = RuokaController::all();
+        $ruoat = Ruoka::all();
         View::make('ruokalajit.html', array('ruoat' => $ruoat));
     }
     
