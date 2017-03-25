@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Makaronilaatikko</h1>
+  <h1>{{ruoka.nimi}}</h1>
   <!-- Painikkeet -->
   <p>
     <a href="#" class="btn btn-default">Muokkaa</a> <button class="btn btn-danger">Poista</button> 
   </p>
   <!-- Tiedot -->
   <ul>
-    <li><strong>Kategoria(t):</strong> Uuniruoka</li>
-    <li><strong>Pääraaka-aineet:</strong> Pasta, Jauheliha</li>
-    <li><strong>Käyttökerrat:</strong> 2</li>
+    <li><strong>Kategoriat:</strong>{{ruoka.kategoriat}}</li>
+    <li><strong>Pääraaka-aineet:</strong>{{ruoka.ainekset}}</li>
+    <li><strong>Käyttökerrat:</strong> {{ruoka.kayttokerrat}}</li>
   </ul>
   <!-- Kommentti -->
   <p>
-    Jauhelihan voi halutessaan korvata soijarouheella tai tonnikalalla.
+    {{ruoka.kommentti}}
   </p>
 {% endblock %}

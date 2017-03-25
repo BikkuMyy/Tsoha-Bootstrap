@@ -50,7 +50,6 @@ class Aines extends BaseModel {
         $rivit = $query->fetchAll();
         $ainekset = array();
 
-
         foreach ($rivit as $rivi) {
             $ainekset[] = self::find($rivi['aines']);
         }

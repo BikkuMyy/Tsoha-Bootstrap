@@ -8,8 +8,8 @@
 class Ruoka extends BaseModel {
 
     public $id, $nimi, $kayttokerrat, $kommentti, $kayttaja;
-    public $kategoriat;
-    public $ainekset;
+    public $kategoriat = array();
+    public $ainekset = array();
     
 
     public function __construct($attributes) {
@@ -29,8 +29,8 @@ class Ruoka extends BaseModel {
                 'kayttokerrat' => $rivi['kayttokerrat'],
                 'kommentti' => $rivi['kommentti'],
                 'kayttaja' => $rivi['kayttaja'],
-                'kategoriat' => self::kategoriat($ruoka_id),
-                'ainekset' => self::ainekset($ruoka_id)
+                'kategoriat' => Kategoria::kategoriat($ruoka_id),
+                'ainekset' => Aines::ainekset($ruoka_id)
                 ));
         }
         
@@ -50,36 +50,24 @@ class Ruoka extends BaseModel {
                 'kayttokerrat' => $rivi['kayttokerrat'],
                 'kommentti' => $rivi['kommentti'],
                 'kayttaja' => $rivi['kayttaja'],
-                'kategoriat' => self::kategoriat($id),
-                'ainekset' => self::ainekset($id)
+                'kategoriat' => Kategoria::kategoriat($id),
+                'ainekset' => Aines::ainekset($id)
             ));
         }
         
         return $ruoka;
     }
-    
-    public static function save(){
+    //
+    public function save(){
         $query = DB::connection()->prepare('INSERT INTO Ruoka '
                                            . '(nimi, kayttokerrat, kommentti, kayttaja) '
-                                           . 'VALUES (:nimi, :kayttokerrat, :kommentti, :kayttaja)');
+                                           . 'VALUES (:nimi, 0, :kommentti, 1) '
+                                           . 'RETURNING id');
         
         $query->execute(array('nimi' => $this->nimi, 
-                              'kayttokerrat' => $this ->kayttokerrat, 
-                              'kommentti' => $this->kommentti,
-                              'kayttaja' => $this->kayttaja));
+                              'kommentti' => $this->kommentti));
         
-        $rivi = $query.fetch();
+        $rivi = $query->fetch();
         $this->id = $rivi['id'];
-    }
-    
-    //metodit kategorioiden ja aineksien hakemista varten
-    public static function kategoriat($id){
-        return Kategoria::kategoriat($id);
-        
-    }
-    
-    
-    public static function ainekset($id){
-        return Aines::ainekset($id);
     }
 }

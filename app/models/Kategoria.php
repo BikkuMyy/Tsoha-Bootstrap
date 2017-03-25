@@ -56,7 +56,6 @@ class Kategoria extends BaseModel {
             $kategoriat[] = self::find($rivi['kategoria']);
         }
 
-
         return $kategoriat;
     }
 

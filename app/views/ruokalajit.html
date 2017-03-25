@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th>Nimi</th>
-            <th>Kategotriat</th>
+            <th>Kategoriat</th>
             <th>Pääraaka-aineet</th>
             <th>Käyttökerrat</th>
             <th>Kommentti</th>
@@ -26,10 +26,12 @@
             {% for kategoria in ruoka.kategoriat %}
             <td>{{kategoria}}</td>
             {% endfor %}
-
-            {% for aines in ruoka.ainekset %}
-            <td>{{aines}}</td>
-            {% endfor %}
+            
+            <td><ul class ="list-unstyled">
+                    {% for aines in ruoka.ainekset %}
+                    <li>{{aines}}</li>
+                    {% endfor %}
+                </ul></td>
 
             <td>{{ruoka.kayttokerrat}}</td>
             <td>{{ruoka.kommentti}}</td>
