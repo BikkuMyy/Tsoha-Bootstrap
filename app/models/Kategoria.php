@@ -55,6 +55,10 @@ class Kategoria extends BaseModel {
         foreach ($rivit as $rivi) {
             $kategoriat[] = self::find($rivi['kategoria']);
         }
+        
+        if (empty($kategoriat)) {
+            $kategoriat[] = "-";
+        }
 
         return $kategoriat;
     }

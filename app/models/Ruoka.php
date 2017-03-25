@@ -16,9 +16,9 @@ class Ruoka extends BaseModel {
         parent::__construct($attributes);
     }
 
-    public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Ruoka');
-        $query->execute();
+    public static function all($kayttaja) {
+        $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE kayttaja = :kayttaja');
+        $query->execute(array('kayttaja' => $kayttaja));
         $rivit = $query->fetchAll();
         $ruoat = array();
 
@@ -61,13 +61,18 @@ class Ruoka extends BaseModel {
     public function save(){
         $query = DB::connection()->prepare('INSERT INTO Ruoka '
                                            . '(nimi, kayttokerrat, kommentti, kayttaja) '
-                                           . 'VALUES (:nimi, 0, :kommentti, 1) '
+                                           . 'VALUES (:nimi, 0, :kommentti, :kayttaja) '
                                            . 'RETURNING id');
         
         $query->execute(array('nimi' => $this->nimi, 
-                              'kommentti' => $this->kommentti));
+                              'kommentti' => $this->kommentti,
+                              'kayttaja' => $this->kayttaja));
         
         $rivi = $query->fetch();
         $this->id = $rivi['id'];
+    }
+    
+    public static function update(){
+        //päivittää tietokannan muokkauksen jälkeen
     }
 }

@@ -4,7 +4,7 @@
  *
  * @author mari
  */
-class Kayttaja {
+class Kayttaja extends BaseModel {
     
     public $id, $kayttajatunnus, $salasana;
 
@@ -57,5 +57,23 @@ class Kayttaja {
         
         $rivi = $query.fetch();
         $this->id = $rivi['id'];
+    }
+    
+    public static function authenticate($username, $password){
+        $query = DB::connection()->prepare('SELECT * FROM Kayttaja '
+                                . 'WHERE kayttajatunnus = :username '
+                                . 'AND salasana = :password LIMIT 1');
+        
+        $query->execute(array('username' => $username, 'password' => $password));
+        $rivi = $query->fetch();
+        
+        if($rivi){
+            return new Kayttaja(array(
+                'id' => $rivi['id'],
+                'kayttajatunnus' => $rivi['kayttajatunnus']
+            ));
+        } else {
+            return NULL;
+        }
     }
 }

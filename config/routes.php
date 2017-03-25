@@ -1,7 +1,7 @@
 <?php
 
 $routes->get('/', function() {
-    HelloWorldController::index();
+    ArkistoController::index();
 });
 
 $routes->get('/sandbox', function() {
@@ -10,6 +10,10 @@ $routes->get('/sandbox', function() {
 
 $routes->get('/login', function() {
     ArkistoController::login();
+});
+
+$routes->post('/login', function() {
+    ArkistoController::handle_login();
 });
 
 $routes->get('/ruokalajit', function() {
@@ -26,6 +30,10 @@ $routes->get('/ruoka/new', function() {
 
 $routes->get('/ruokalajit/:id', function($id) {
     RuokaController::single($id);
+});
+
+$routes->post('/ruoka/:id/edit', function($id) {
+    RuokaController::edit();
 });
 
 $routes->get('/ruokalajit/:id/modify', function($id) {

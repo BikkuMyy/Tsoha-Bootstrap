@@ -3,7 +3,12 @@
   class BaseController{
 
     public static function get_user_logged_in(){
-      // Toteuta kirjautuneen käyttäjän haku tähän
+        if(isset($_SESSION['user'])){
+            $user_id = $_SESSION['user'];
+            
+            return Kayttaja::find($user_id);
+        }
+        
       return null;
     }
 

@@ -1,23 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Muokkaa ruokalajia Makaronilaatikko</h1>
+  <h1>Muokkaa ruokalajia {{ruoka.nimi}}</h1>
 
   <form>
     <div class="form-group">
       <label>Nimi:</label>
-      <input type="text" class="form-control" value="Makaronilaatikko">
+      <input type="text" class="form-control" value="{{ruoka.nimi}}">
     </div>
     <div class="form-group">
       <label>Kategoria(t):</label>
-      <input type="text" class="form-control" value="Uuniruoka">
+      <input type="text" class="form-control" value="{{ruoka.kategoriat}}">
     </div>
     <div class="form-group">
       <label>Pääraaka-aineet:</label>
-      <input type="text" class="form-control" value="Jauheliha, Pasta">
+      <input type="text" class="form-control" value="{{ruoka.ainekset}}">
     </div>
     <div class="form-group">
       <label>Kommentti:</label>
-      <textarea class="form-control">Jauhelihan voi halutessaan korvata soijarouheella tai tonnikalalla.
+      <textarea class="form-control">{{ruoka.kommentti}}
       </textarea>
     </div>
     <div class="form-group">
