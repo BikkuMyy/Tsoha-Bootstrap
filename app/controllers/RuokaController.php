@@ -22,9 +22,11 @@ class RuokaController extends BaseController {
         View::make('modify.html', array('ruoka' => $ruoka));
     }
     
-    public static function edit(){
+    public static function update($id){
         $params = $_POST;
+        
         $ruoka = new Ruoka(array(
+            'id' => $id,
             'nimi' => $params ['nimi'],
             'kommentti' => $params ['kommentti']
             //'kategoriat' => 
@@ -40,11 +42,12 @@ class RuokaController extends BaseController {
         View::make('new.html');
     }
 
-    public static function store() {
+    public static function store($id) {
         $params = $_POST;
         $user = parent::get_user_logged_in();
         
         $ruoka = new Ruoka(array(
+            'id' => $id,
             'nimi' => $params ['nimi'],
             'kommentti' => $params ['kommentti'],
             'kayttaja' => $user['id']
@@ -56,7 +59,17 @@ class RuokaController extends BaseController {
         
         $ruoka->save();
         
-        Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoka on lisätty arkistoosi!'));
+        Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoka ' . $params ['nimi'] . ' lisätty arkistoosi!'));
+    }
+    
+    public static function remove($id){
+        $params = $_POST;
+        
+        $ruoka = new Ruoka(array('id' => $id));
+        
+        $ruoka->remove();
+        
+        Redirect::to('/ruokalajit', array('message' => 'Ruoka ' . $params ['nimi'] . ' poistettu.'));
     }
 
 }

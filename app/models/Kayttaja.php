@@ -50,7 +50,8 @@ class Kayttaja extends BaseModel {
     public static function save(){
         $query = DB::connection()->prepare('INSERT INTO Kayttaja '
                                            . '(kayttajatunnus, salasana) '
-                                           . 'VALUES (:kayttajatunnus, salasana)');
+                                           . 'VALUES (:kayttajatunnus, salasana) '
+                                           . 'RETURNING id');
         
         $query->execute(array('kayttajatunnus' => $this->kayttajatunnus,
                               'salasana' => $this->salasana));

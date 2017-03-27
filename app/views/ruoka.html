@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+
+
+<div class="alert alert-success">
+  {{message}}
+</div>
+
   <h1>{{ruoka.nimi}}</h1>
   <!-- Painikkeet -->
   <p>
-    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify" class="btn btn-default">Muokkaa</a> <button class="btn btn-danger">Poista</button> 
+    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify" class="btn btn-default">Muokkaa</a>
+    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/remove" class="btn btn-danger">Poista</a> 
   </p>
   <!-- Tiedot -->
   <ul>

@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+
+
+<div class="alert alert-success">
+  {{message}}
+</div>
+
+
 <h1>Käyttäjän {{user_logged_in.kayttajatunnus}} ruoka-arkisto</h1>
 
 <p>
-    <a href="#" class="btn btn-success">Lisää ruoka</a>
+    <a href="{{base_path}}/ruoka/new" class="btn btn-success">Lisää ruoka</a>
 </p>
 
 <table class="table table-striped table-bordered">

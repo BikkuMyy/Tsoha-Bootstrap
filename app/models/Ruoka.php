@@ -14,6 +14,7 @@ class Ruoka extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        //$this->$validators = array('validate_nimi', 'validate_');
     }
 
     public static function all($kayttaja) {
@@ -74,5 +75,9 @@ class Ruoka extends BaseModel {
     
     public static function update(){
         //päivittää tietokannan muokkauksen jälkeen
+    }
+    
+    public static function remove(){
+        //poistaa rivin tietokannasta
     }
 }

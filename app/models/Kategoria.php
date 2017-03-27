@@ -41,6 +41,16 @@ class Kategoria extends BaseModel {
 
         return $kategoria;
     }
+    
+    public function save($ruoka_id){
+        $query = DB::connection()->prepare('INSERT INTO Kategoria '
+                                            . 'VALUES (:nimi) RETURNING id');
+        $query->execute(array('nimi' => $this->nimi));
+        $rivi = $query->fetch();
+        $this->id = $rivi['id'];
+        self::lisaaRuokaKategoria($ruoka_id);
+                
+    }
 
     public static function kategoriat($ruoka_id) {
         $query = DB::connection()->prepare('SELECT * FROM RuokaKategoria '
@@ -61,6 +71,14 @@ class Kategoria extends BaseModel {
         }
 
         return $kategoriat;
+    }
+    
+    public static function lisaaRuokaKategoria($ruoka_id){
+        $query = DB::connection()->prepare('INSERT INTO RuokaAines '
+                                            . '(:ruoka, :kategoria)');
+        $query->execute(array('ruoka' => $ruoka_id,
+                              'kategoria' => $this->id));
+        
     }
 
 }

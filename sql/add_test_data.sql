@@ -1,8 +1,9 @@
 -- Testidatan INSERT INTO lauseet
 
 -- Kayttaja
-INSERT INTO Kayttaja (nimi, salasana) VALUES('Mymmeli', '12345');
-INSERT INTO Kayttaja (nimi, salasana) VALUES('Viljonkka', 'salasana');
+INSERT INTO Kayttaja (kayttajatunnus, salasana) VALUES('Mymmeli', '12345');
+INSERT INTO Kayttaja (kayttajatunnus, salasana) VALUES('Viljonkka', 'salasana');
+INSERT INTO Kayttaja (kayttajatunnus, salasana) VALUES('Testaaja', 'testi');
 
 -- Kategoria
 INSERT INTO Kategoria (nimi) VALUES('Kastike');
@@ -13,7 +14,9 @@ INSERT INTO Kategoria (nimi) VALUES('Uuniruoka');
 INSERT INTO Ruoka (nimi, kayttokerrat, kommentti, kayttaja) VALUES('Herkkusienikastike', 1, 'Muista pilkkoa sipuli hienoksi', 2);
 INSERT INTO Ruoka (nimi, kayttokerrat, kommentti, kayttaja) VALUES('Fried chicken', 1, 'Korppujauhojen sijaan käy myös hapankorppumuru', 1);
 INSERT INTO Ruoka (nimi, kayttokerrat, kommentti, kayttaja) VALUES('Makaroonilaatikko', 0, 'Jauhelihan voi korvata soijarouheella', 1);
-INSERT INTO Ruoka (nimi, kayttokerrat, kommentti, kayttaja) VALUES('Uunimakkara', 0, 'Muista juusto päälle', 1);
+INSERT INTO Ruoka (nimi, kayttokerrat, kommentti, kayttaja) VALUES('Uunimakkara', 0, 'Muista juusto päälle', 3);
+INSERT INTO Ruoka (nimi, kayttokerrat, kommentti, kayttaja) VALUES('Pinaattikeitto', 0, '+ keitetyt kananmunat', 3);
+INSERT INTO Ruoka (nimi, kayttokerrat, kommentti, kayttaja) VALUES('Makaronilaatikko', 0, 'Voi tuunata vaikka sinihomejuustolla', 3);
 
 -- RuokaKategoria
 INSERT INTO RuokaKategoria VALUES(1, 1);

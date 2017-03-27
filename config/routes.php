@@ -32,11 +32,14 @@ $routes->get('/ruokalajit/:id', function($id) {
     RuokaController::single($id);
 });
 
-$routes->post('/ruoka/:id/edit', function($id) {
-    RuokaController::edit();
+$routes->post('/ruoka/:id/update', function($id) {
+    RuokaController::update($id);
 });
 
 $routes->get('/ruokalajit/:id/modify', function($id) {
     RuokaController::modify($id);
 });
 
+$routes->post('/ruokalajit/:id/remove', function($id){
+   RuokaController::remove($id); 
+});
