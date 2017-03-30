@@ -15,7 +15,7 @@ class ArkistoController extends BaseController{
         View::make('login.html');
     }
     
-    public static function  handle_login(){
+    public static function handle_login(){
         $params = $_POST;
         $kayttaja = Kayttaja::authenticate($params['username'], $params['password']);
         
@@ -26,5 +26,14 @@ class ArkistoController extends BaseController{
         }
         
         Redirect::to('/ruokalajit', array('message' => 'Tervetuloa ' . $kayttaja->kayttajatunnus . '!'));
+    }
+    
+    public static function signup(){
+        View:make('signup.html');
+    }
+    
+    public static function handle_signup(){
+        //tarkistetaan, onko käyttäjätunnus käytettävissä
+        // luodaan uusi käyttäjä
     }
 }

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Muokkaa ruokalajia {{ruoka.nimi}}</h1>
+
+<form method="post" action="{{base_path}}/ruoka/{{ruoka.id}}/update">
+    <div class="form-group">
+        <h3>Nimi</h3>
+        <input type="text" name ="nimi" class="form-control" value="{{ruoka.nimi}}">
+    </div>
+
+    <div class="form-group">
+        <h3>Kategoriat</h3>
+        <label for="sel1">Valitse useampi pitämällä CTRL-näppäintä pohjassa</label>
+
+        <select name="valitutKategoriat[]" multiple class="form-control" id="sel1">
+            {% for kategoria in kategoriat %}
+            <option>{{kategoria}}</option>
+            {% endfor %}
+        </select>
+
+    </div>
+
+    <a class="btn btn-default btn-sm" href="{{base_path}}/kategoria">Uusi kategoria</a>
+
+    <div class="form-group">
+        <h3>Pääraaka-aineet</h3>
+        <label for="sel2">Valitse useampi pitämällä CTRL-näppäintä pohjassa</label>
+
+        <select name = "valitutAinekset[]" multiple class="form-control" id="sel2">
+            {% for aines in ainekset %}
+            <option>{{aines}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <a class="btn btn-default btn-sm" href="{{base_path}}/aines">Uusi aines</a>
+
+    <div class="form-group">
+        <h3>Kommentti</h3>
+        <textarea class="form-control">{{ruoka.kommentti}}</textarea>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Tallenna</button>
+    </div>
+    
+    <a class="btn btn-danger" href="{{base_path}}/ruokalajit/{{ruoka.id}}">Peruuta</a>
+
+</form>
+{% endblock %}

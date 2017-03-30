@@ -1,11 +1,17 @@
 # Tietokantasovelluksen esittelysivu
 
-Yleisiä linkkejä:
+##Yleisiä linkkejä:
 
 * [Linkki sovellukseen](http://pmari.users.cs.helsinki.fi/tsoha)
 	- kirjautumaan pääsee käyttäjätunnuksella 'Testaaja' ja salasanalla 'testi'
 
 * [Linkki dokumentaatioon](https://github.com/BikkuMyy/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
+
+## Tähän mennessä toteutetut toiminnot:
+* kirjautuminen: sisään pääsee käyttäjätunnuksella 'Testaaja' ja salasanalla 'testi'
+* käyttäjän ruokalajien listaussivu
+* yksittäisen ruokalajin esittelysivu
+* 
 
 ## Työn aihe
 

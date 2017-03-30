@@ -20,16 +20,13 @@ class Kategoria extends BaseModel {
         $kategoriat = array();
 
         foreach ($rivit as $rivi) {
-            $kategoriat[] = new Kategoria(array(
-                'id' => $rivi['id'],
-                'nimi' => $rivi['nimi']
-            ));
+            $kategoriat[] = $rivi['nimi'];
         }
 
         return $kategoriat;
     }
 
-    public function find($id) {
+    public static function find($id) {
         $query = DB::connection()->prepare('SELECT nimi FROM Kategoria '
                 . 'WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
@@ -42,19 +39,34 @@ class Kategoria extends BaseModel {
         return $kategoria;
     }
     
-    public function save($ruoka_id){
-        $query = DB::connection()->prepare('INSERT INTO Kategoria '
+    public static function findBy($nimi) {
+        $query = DB::connection()->prepare('SELECT * FROM Kategoria '
+                . 'WHERE nimi = :nimi LIMIT 1');
+        $query->execute(array('nimi' => $nimi));
+        $rivi = $query->fetch();
+
+        if ($rivi) {
+            $kategoria = new Kategoria(array(
+                        'id' => $rivi['id'],
+                        'nimi' => $rivi['nimi']));
+        }
+
+        return $kategoria;
+    }
+    
+    public function save(){
+        $query = DB::connection()->prepare('INSERT INTO Kategoria (nimi) '
                                             . 'VALUES (:nimi) RETURNING id');
+        
         $query->execute(array('nimi' => $this->nimi));
         $rivi = $query->fetch();
         $this->id = $rivi['id'];
-        self::lisaaRuokaKategoria($ruoka_id);
                 
     }
 
     public static function kategoriat($ruoka_id) {
         $query = DB::connection()->prepare('SELECT * FROM RuokaKategoria '
-                . 'WHERE ruoka = :id LIMIT 1');
+                . 'WHERE ruoka = :id');
 
         $query->execute(array('id' => $ruoka_id));
 
@@ -73,8 +85,8 @@ class Kategoria extends BaseModel {
         return $kategoriat;
     }
     
-    public static function lisaaRuokaKategoria($ruoka_id){
-        $query = DB::connection()->prepare('INSERT INTO RuokaAines '
+    public function lisaaRuokaKategoria($ruoka_id){
+        $query = DB::connection()->prepare('INSERT INTO RuokaKategoria VALUES '
                                             . '(:ruoka, :kategoria)');
         $query->execute(array('ruoka' => $ruoka_id,
                               'kategoria' => $this->id));

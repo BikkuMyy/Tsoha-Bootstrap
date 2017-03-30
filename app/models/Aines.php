@@ -20,10 +20,7 @@ class Aines extends BaseModel {
         $ainekset = array();
 
         foreach ($rivit as $rivi) {
-            $ainekset[] = new Aines(array(
-                'id' => $rivi['id'],
-                'nimi' => $rivi['nimi']
-            ));
+            $ainekset[] = $rivi['nimi'];
         }
 
         return $ainekset;
@@ -42,19 +39,32 @@ class Aines extends BaseModel {
         return $aines;
     }
     
-    public function save($ruoka_id){
-        $query = DB::connection()->prepare('INSERT INTO Kategoria (nimi)'
+    public static function findBy($nimi){
+        $query = DB::connection()->prepare('SELECT * FROM Aines '
+                . 'WHERE nimi = :nimi LIMIT 1');
+        $query->execute(array('nimi' => $nimi));
+        $rivi = $query->fetch();
+
+        if ($rivi) {
+            $aines = new Aines(array(
+                    'id' => $rivi['id'],
+                    'nimi' => $rivi['nimi']));
+        }
+
+        return $aines;
+    }
+    
+    public function save(){
+        $query = DB::connection()->prepare('INSERT INTO Aines (nimi)'
                                             . 'VALUES :nimi RETURNING id');
         $query->execute(array('nimi' => $this->nimi));
         $rivi = $query->fetch();
         $this->id = $rivi['id'];
-        self::lisaaRuokaAines($ruoka_id);
-        
     }
-
+    
     public static function ainekset($ruoka_id) {
         $query = DB::connection()->prepare('SELECT aines FROM RuokaAines '
-                . 'WHERE ruoka = :id LIMIT 1');
+                . 'WHERE ruoka = :id');
         $query->execute(array('id' => $ruoka_id));
 
         $rivit = $query->fetchAll();
@@ -71,8 +81,8 @@ class Aines extends BaseModel {
         return $ainekset;
     }
     
-    public static function lisaaRuokaAines($ruoka_id){
-        $query = DB::connection()->prepare('INSERT INTO RuokaAines '
+    public function lisaaRuokaAines($ruoka_id){
+        $query = DB::connection()->prepare('INSERT INTO RuokaAines VALUES '
                                             . '(:ruoka, :aines)');
         $query->execute(array('ruoka' => $ruoka_id,
                               'aines' => $this->id));

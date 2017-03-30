@@ -1,33 +1,28 @@
-
-
 {% extends "base.html" %}
 {% block content %}
 
 <h1>Tervetuloa Ruoka-arkistoon!</h1>
 <br/>
 
-<h1>Kirjaudu sisään</h1>
+<h1>Rekisteröidy käyttäjäksi</h1>
 
     <form method="post" action="{{base_path}}/login">
     <div class="form-group">
-      <label>Käyttäjätunnus:</label>
+      <label>Anna käyttäjätunnus:</label>
       <input type="text" class="form-control" name="username" value="{{username}}">
     </div>
 
     <div class="form-group">
-      <label>Salasana:</label>
+      <label>Anna salasana:</label>
       <input type="password" class="form-control" name="password">
     </div>
 
-    <button type="submit" class="btn btn-success">Sisään!</button>
+    <button type="submit" class="btn btn-primary">Luo käyttäjä</button>
   </form>
 
-<h2>Uusi käyttäjä?</h2>
-
 <p>
-    <a href="{{base_path}}/signup" class="btn btn-primary">Rekisteröidy</a>
+    <a href="{{base_path}}/signup" class="btn btn-success">Rekisteröidy</a>
 </p>
 
+
 {% endblock %}
-
-

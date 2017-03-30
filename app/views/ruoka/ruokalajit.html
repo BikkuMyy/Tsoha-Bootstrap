@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
-
+{% if message %}
 <div class="alert alert-success">
   {{message}}
 </div>
+{% endif %}
 
 
 <h1>Käyttäjän {{user_logged_in.kayttajatunnus}} ruoka-arkisto</h1>
@@ -17,11 +18,9 @@
     <thead>
         <tr>
             <th>Nimi</th>
-            <th>Kategoriat</th>
-            <th>Pääraaka-aineet</th>
             <th>Käyttökerrat</th>
             <th>Kommentti</th>
-            <th>    </th>
+            <th></th>
         </tr>
     </thead>
 
@@ -29,16 +28,6 @@
         {% for ruoka in ruoat %}
         <tr>
             <td><a href="{{base_path}}/ruokalajit/{{ruoka.id}}">{{ruoka.nimi}}</td>
-
-            {% for kategoria in ruoka.kategoriat %}
-            <td>{{kategoria}}</td>
-            {% endfor %}
-            
-            <td><ul class ="list-unstyled">
-                    {% for aines in ruoka.ainekset %}
-                    <li>{{aines}}</li>
-                    {% endfor %}
-                </ul></td>
 
             <td>{{ruoka.kayttokerrat}}</td>
             <td>{{ruoka.kommentti}}</td>

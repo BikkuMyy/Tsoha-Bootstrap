@@ -9,50 +9,33 @@ class RuokaController extends BaseController {
 
     public static function index() {
         $ruoat = Ruoka::all(parent::get_user_logged_in()->id);
-        View::make('ruokalajit.html', array('ruoat' => $ruoat));
+        View::make('ruoka/ruokalajit.html', array('ruoat' => $ruoat));
     }
 
     public static function single($id) {
         $ruoka = Ruoka::find($id);
-        View::make('ruoka.html', array('ruoka' => $ruoka));
-    }
-
-    public static function modify($id) {
-        $ruoka = Ruoka::find($id);
-        View::make('modify.html', array('ruoka' => $ruoka));
-    }
-    
-    public static function update($id){
-        $params = $_POST;
-        
-        $ruoka = new Ruoka(array(
-            'id' => $id,
-            'nimi' => $params ['nimi'],
-            'kommentti' => $params ['kommentti']
-            //'kategoriat' => 
-            //'ainekset' => 
-        ));
-        
-        $ruoka->update();
-        
-        Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoan tiedot päivitetty'));
+        View::make('ruoka/ruoka.html', array('ruoka' => $ruoka));
     }
     
     public static function create(){
-        View::make('new.html');
+        $kategoriat = Kategoria::all();
+        $ainekset = Aines::all();
+        View::make('ruoka/new.html', array('kategoriat' => $kategoriat, 
+                                        'ainekset'=> $ainekset));
     }
 
-    public static function store($id) {
+    public static function store() {
         $params = $_POST;
         $user = parent::get_user_logged_in();
+        $kategoriat = $params['valitutKategoriat'];
+        $ainekset = $params['valitutAinekset'];
         
         $ruoka = new Ruoka(array(
-            'id' => $id,
             'nimi' => $params ['nimi'],
             'kommentti' => $params ['kommentti'],
-            'kayttaja' => $user['id']
-            //'kategoriat' => 
-            //'ainekset' => 
+            'kayttaja' => $user->id,
+            'kategoriat' => $kategoriat,
+            'ainekset' => $ainekset
         ));
         
         //Kint::dump($params);
@@ -60,6 +43,39 @@ class RuokaController extends BaseController {
         $ruoka->save();
         
         Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoka ' . $params ['nimi'] . ' lisätty arkistoosi!'));
+    }
+    
+    public static function modify($id) {
+        $ruoka = Ruoka::find($id);
+        $kategoriat = Kategoria::all();
+        $valitutKategoriat = Kategoria::kategoriat($id);
+        $ainekset = Aines::all();
+        $valitutAinekset = Aines::ainekset($id);
+        View::make('ruoka/modify.html', array('ruoka' => $ruoka, 
+                                        'kategoriat' => $kategoriat,
+                                        'valitutKategoriat' => $valitutKategoriat,
+                                        'ainekset' => $ainekset,
+                                        'valitutAinekset' => $valitutAinekset));
+    }
+    
+    public function update($id){
+        $params = $_POST;
+        $user = parent::get_user_logged_in();
+        $kategoriat = $params['valitutKategoriat'];
+        $ainekset = $params['valitutAinekset'];
+        
+        $ruoka = new Ruoka(array(
+            'id' => $id,
+            'nimi' => $params ['nimi'],
+            'kommentti' => $params ['kommentti'],
+            'kayttaja' => $user->id,
+            'kategoriat' => $kategoriat,
+            'ainekset' => $ainekset
+        ));
+        
+        $ruoka->update();
+        
+        Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoan tiedot päivitetty'));
     }
     
     public static function remove($id){

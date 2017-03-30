@@ -16,6 +16,14 @@ $routes->post('/login', function() {
     ArkistoController::handle_login();
 });
 
+$routes->get('/signup', function(){
+    ArkistoController::signup();
+});
+
+$routes->post('signup', function(){
+    ArkistoController::handle_signup(); 
+});
+
 $routes->get('/ruokalajit', function() {
     RuokaController::index();
 });
@@ -26,6 +34,22 @@ $routes->post('/ruoka', function() {
 
 $routes->get('/ruoka/new', function() {
     RuokaController::create();
+});
+
+$routes->get('/aines', function() {
+    AKController::lisaaAines();
+});
+
+$routes->post('/aines', function(){
+    AKController::tallennaAines();
+});
+
+$routes->get('/kategoria', function (){
+    AKController::lisaaKategoria();
+});
+
+$routes->post('/kategoria', function(){
+    AKController::tallennaKategoria();
 });
 
 $routes->get('/ruokalajit/:id', function($id) {

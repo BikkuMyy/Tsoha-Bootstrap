@@ -58,7 +58,7 @@ class Ruoka extends BaseModel {
         
         return $ruoka;
     }
-    //
+    
     public function save(){
         $query = DB::connection()->prepare('INSERT INTO Ruoka '
                                            . '(nimi, kayttokerrat, kommentti, kayttaja) '
@@ -71,13 +71,34 @@ class Ruoka extends BaseModel {
         
         $rivi = $query->fetch();
         $this->id = $rivi['id'];
+        
+        self::lisaaKategoriat();
+        self::lisaaAinekset();
     }
     
-    public static function update(){
-        //päivittää tietokannan muokkauksen jälkeen
+    public function update(){
+        $query = DB::connection()->prepare('UPDATE Ruoka SET nimi = :nimi, kommentti = :kommentti');
+        $query->execute(array('nimi' => $this->nimi,
+                              'kommentti' => $this.kommentti));
+        
+        //Kategorioiden ja ainesten päivitys
     }
     
     public static function remove(){
         //poistaa rivin tietokannasta
+    }
+    
+    public function lisaaKategoriat(){
+        foreach($this->kategoriat as $k){
+            $kategoria = Kategoria::findBy($k);
+            $kategoria->lisaaRuokaKategoria($this->id);
+        }
+    }
+    
+    public function lisaaAinekset(){
+        foreach($this->ainekset as $a){
+            $aines = Aines::findBy($a);
+            $aines->lisaaRuokaAines($this->id);
+        }
     }
 }
