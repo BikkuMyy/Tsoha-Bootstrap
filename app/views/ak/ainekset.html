@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
+<h1>Kaikki ainekset</h1>
+
+{% for aines in ainekset %}
+<ul>
+    <li>{{aines}}</li>
+</ul>
+{% endfor %}
+
+<p><br/><a class="btn btn-success" href="{{base_path}}/aines">Lisää aines</a></p>
+
+{% endblock %}

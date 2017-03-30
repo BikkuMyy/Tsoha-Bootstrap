@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if message %}
+<div class="alert alert-success">
+  {{message}}
+</div>
+{% endif %}
+
+<h1>Kaikki kategoriat</h1>
+
+{% for kategoria in kategoriat %}
+<ul>
+    <li>{{kategoria}}</li>
+</ul>
+{% endfor %}
+
+<p><br/><a class="btn btn-success" href="{{base_path}}/kategoria">Lisää kategoria</a></p>
+ 
+{% endblock %}

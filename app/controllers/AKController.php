@@ -7,8 +7,13 @@
  */
 class AKController extends BaseController {
     
+    public static function ainekset(){
+        $ainekset = Aines::all();
+        View::make('ak/ainekset.html', array('ainekset' => $ainekset));
+    }
+    
     public static function lisaaAines(){
-        View::make('aines.html');
+        View::make('ak/aines.html');
     }
     
     public static function tallennaAines(){
@@ -16,11 +21,16 @@ class AKController extends BaseController {
         $aines = new Aines(array('nimi' => $params['nimi']));
         $aines->save();
         
-        //redirect
+        Redirect::to('/ainekset', array('message' => 'Aines ' . $params['nimi'] . ' lisätty arkistoosi!'));
+    }
+    
+    public static function kategoriat(){
+        $kategoriat = Kategoria::all();
+        View::make('ak/kategoriat.html', array('kategoriat' => $kategoriat));
     }
     
     public static function lisaaKategoria(){
-        View::make('kategoria.html');
+        View::make('ak/kategoria.html');
     }
     
     public static function tallennaKategoria(){
@@ -28,6 +38,6 @@ class AKController extends BaseController {
         $kategoria = new Kategoria(array('nimi' => $params['nimi']));
         $kategoria->save();
         
-        //redirect
+        Redirect::to('/kategoriat', array('message' => 'Kategoria ' . $params['nimi'] . ' lisätty arkistoosi!'));
     }
 }

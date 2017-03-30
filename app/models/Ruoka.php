@@ -31,8 +31,7 @@ class Ruoka extends BaseModel {
                 'kommentti' => $rivi['kommentti'],
                 'kayttaja' => $rivi['kayttaja'],
                 'kategoriat' => Kategoria::kategoriat($ruoka_id),
-                'ainekset' => Aines::ainekset($ruoka_id)
-                ));
+                'ainekset' => Aines::ainekset($ruoka_id)));
         }
         
         return $ruoat;

@@ -11,7 +11,7 @@
 * kirjautuminen: sisään pääsee käyttäjätunnuksella 'Testaaja' ja salasanalla 'testi'
 * käyttäjän ruokalajien listaussivu
 * yksittäisen ruokalajin esittelysivu
-* 
+* uuden ruokalajin lisääminen arkistoon
 
 ## Työn aihe
 

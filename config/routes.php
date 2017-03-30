@@ -36,12 +36,20 @@ $routes->get('/ruoka/new', function() {
     RuokaController::create();
 });
 
+$routes->get('/ainekset', function(){
+    AKController::ainekset();
+});
+
 $routes->get('/aines', function() {
     AKController::lisaaAines();
 });
 
 $routes->post('/aines', function(){
     AKController::tallennaAines();
+});
+
+$routes->get('/kategoriat', function(){
+    AKController::kategoriat();
 });
 
 $routes->get('/kategoria', function (){

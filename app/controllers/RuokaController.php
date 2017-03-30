@@ -21,7 +21,7 @@ class RuokaController extends BaseController {
         $kategoriat = Kategoria::all();
         $ainekset = Aines::all();
         View::make('ruoka/new.html', array('kategoriat' => $kategoriat, 
-                                        'ainekset'=> $ainekset));
+                                           'ainekset'=> $ainekset));
     }
 
     public static function store() {
@@ -35,10 +35,7 @@ class RuokaController extends BaseController {
             'kommentti' => $params ['kommentti'],
             'kayttaja' => $user->id,
             'kategoriat' => $kategoriat,
-            'ainekset' => $ainekset
-        ));
-        
-        //Kint::dump($params);
+            'ainekset' => $ainekset));
         
         $ruoka->save();
         
@@ -51,6 +48,7 @@ class RuokaController extends BaseController {
         $valitutKategoriat = Kategoria::kategoriat($id);
         $ainekset = Aines::all();
         $valitutAinekset = Aines::ainekset($id);
+        
         View::make('ruoka/modify.html', array('ruoka' => $ruoka, 
                                         'kategoriat' => $kategoriat,
                                         'valitutKategoriat' => $valitutKategoriat,
@@ -70,8 +68,7 @@ class RuokaController extends BaseController {
             'kommentti' => $params ['kommentti'],
             'kayttaja' => $user->id,
             'kategoriat' => $kategoriat,
-            'ainekset' => $ainekset
-        ));
+            'ainekset' => $ainekset));
         
         $ruoka->update();
         
@@ -80,7 +77,6 @@ class RuokaController extends BaseController {
     
     public static function remove($id){
         $params = $_POST;
-        
         $ruoka = new Ruoka(array('id' => $id));
         
         $ruoka->remove();

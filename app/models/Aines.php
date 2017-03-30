@@ -14,7 +14,7 @@ class Aines extends BaseModel {
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Aines');
+        $query = DB::connection()->prepare('SELECT nimi FROM Aines ORDER BY nimi');
         $query->execute();
         $rivit = $query->fetchAll();
         $ainekset = array();
@@ -28,7 +28,8 @@ class Aines extends BaseModel {
 
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT nimi FROM Aines '
-                . 'WHERE id = :id LIMIT 1');
+                                         . 'WHERE id = :id LIMIT 1');
+        
         $query->execute(array('id' => $id));
         $rivi = $query->fetch();
 
@@ -41,7 +42,8 @@ class Aines extends BaseModel {
     
     public static function findBy($nimi){
         $query = DB::connection()->prepare('SELECT * FROM Aines '
-                . 'WHERE nimi = :nimi LIMIT 1');
+                                         . 'WHERE nimi = :nimi LIMIT 1');
+        
         $query->execute(array('nimi' => $nimi));
         $rivi = $query->fetch();
 
@@ -55,8 +57,9 @@ class Aines extends BaseModel {
     }
     
     public function save(){
-        $query = DB::connection()->prepare('INSERT INTO Aines (nimi)'
-                                            . 'VALUES :nimi RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Aines (nimi) '
+                                            . 'VALUES (:nimi) RETURNING id');
+        
         $query->execute(array('nimi' => $this->nimi));
         $rivi = $query->fetch();
         $this->id = $rivi['id'];
@@ -64,7 +67,7 @@ class Aines extends BaseModel {
     
     public static function ainekset($ruoka_id) {
         $query = DB::connection()->prepare('SELECT aines FROM RuokaAines '
-                . 'WHERE ruoka = :id');
+                                         . 'WHERE ruoka = :id');
         $query->execute(array('id' => $ruoka_id));
 
         $rivit = $query->fetchAll();
@@ -74,10 +77,10 @@ class Aines extends BaseModel {
             $ainekset[] = self::find($rivi['aines']);
         }
 
-        if (empty($ainekset)) {
-            $ainekset[] = "-";
-        }
-        
+//        if (empty($ainekset)) {
+//            $ainekset[] = "";
+//        }
+//        
         return $ainekset;
     }
     

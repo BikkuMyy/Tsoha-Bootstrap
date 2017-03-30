@@ -12,7 +12,7 @@ class ArkistoController extends BaseController{
     }
     
     public static function login() {
-        View::make('login.html');
+        View::make('arkisto/login.html');
     }
     
     public static function handle_login(){
@@ -20,7 +20,7 @@ class ArkistoController extends BaseController{
         $kayttaja = Kayttaja::authenticate($params['username'], $params['password']);
         
         if(!$kayttaja){
-            View::make('login.html');
+            View::make('arkisto/login.html');
         } else {
             $_SESSION['user'] = $kayttaja->id;
         }
@@ -29,11 +29,11 @@ class ArkistoController extends BaseController{
     }
     
     public static function signup(){
-        View:make('signup.html');
+        View:make('arkisto/signup.html');
     }
     
     public static function handle_signup(){
-        //tarkistetaan, onko käyttäjätunnus käytettävissä
+        // tarkistetaan, onko käyttäjätunnus käytettävissä
         // luodaan uusi käyttäjä
     }
 }

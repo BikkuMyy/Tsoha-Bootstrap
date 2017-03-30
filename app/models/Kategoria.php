@@ -14,7 +14,7 @@ class Kategoria extends BaseModel {
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Kategoria');
+        $query = DB::connection()->prepare('SELECT nimi FROM Kategoria ORDER BY nimi');
         $query->execute();
         $rivit = $query->fetchAll();
         $kategoriat = array();
@@ -28,7 +28,7 @@ class Kategoria extends BaseModel {
 
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT nimi FROM Kategoria '
-                . 'WHERE id = :id LIMIT 1');
+                                         . 'WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
         $rivi = $query->fetch();
 
@@ -41,7 +41,7 @@ class Kategoria extends BaseModel {
     
     public static function findBy($nimi) {
         $query = DB::connection()->prepare('SELECT * FROM Kategoria '
-                . 'WHERE nimi = :nimi LIMIT 1');
+                                         . 'WHERE nimi = :nimi LIMIT 1');
         $query->execute(array('nimi' => $nimi));
         $rivi = $query->fetch();
 
@@ -56,7 +56,7 @@ class Kategoria extends BaseModel {
     
     public function save(){
         $query = DB::connection()->prepare('INSERT INTO Kategoria (nimi) '
-                                            . 'VALUES (:nimi) RETURNING id');
+                                         . 'VALUES (:nimi) RETURNING id');
         
         $query->execute(array('nimi' => $this->nimi));
         $rivi = $query->fetch();
@@ -65,8 +65,8 @@ class Kategoria extends BaseModel {
     }
 
     public static function kategoriat($ruoka_id) {
-        $query = DB::connection()->prepare('SELECT * FROM RuokaKategoria '
-                . 'WHERE ruoka = :id');
+        $query = DB::connection()->prepare('SELECT kategoria FROM RuokaKategoria '
+                                         . 'WHERE ruoka = :id');
 
         $query->execute(array('id' => $ruoka_id));
 
@@ -78,9 +78,9 @@ class Kategoria extends BaseModel {
             $kategoriat[] = self::find($rivi['kategoria']);
         }
         
-        if (empty($kategoriat)) {
-            $kategoriat[] = "-";
-        }
+//        if (empty($kategoriat)) {
+//            $kategoriat[] = "-";
+//        }
 
         return $kategoriat;
     }
