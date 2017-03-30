@@ -8,9 +8,11 @@
 * [Linkki dokumentaatioon](https://github.com/BikkuMyy/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
 
 ## Tähän mennessä toteutetut toiminnot:
-* kirjautuminen: sisään pääsee käyttäjätunnuksella 'Testaaja' ja salasanalla 'testi'
-* käyttäjän ruokalajien listaussivu
-* yksittäisen ruokalajin esittelysivu
+* kirjautuminen (sisään pääsee käyttäjätunnuksella 'Testaaja' ja salasanalla 'testi')
+* käyttäjän ruokalajien listausnäkymä
+* kaikkien kategorioiden ja ainesten listausnäkymät
+* uuden aineksen tai kategorian lisääminen
+* yksittäisen ruokalajin esittelynäkymä
 * uuden ruokalajin lisääminen arkistoon
 
 ## Työn aihe
