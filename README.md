@@ -1,6 +1,6 @@
 # Tietokantasovelluksen esittelysivu
 
-##Yleisiä linkkejä:
+## Yleisiä linkkejä:
 
 * [Linkki sovellukseen](http://pmari.users.cs.helsinki.fi/tsoha)
 	- kirjautumaan pääsee käyttäjätunnuksella 'Testaaja' ja salasanalla 'testi'
