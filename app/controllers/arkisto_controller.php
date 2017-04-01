@@ -50,4 +50,8 @@ class ArkistoController extends BaseController{
             Redirect::to('/login', array('message' => 'Uusi käyttäjä luotu onnistuneesti. Voit nyt kirjautua sisään.'));
         }
     }
+    
+    public static function logout(){
+        //uloskirjautuminen
+    }
 }

@@ -27,8 +27,18 @@ class RuokaController extends BaseController {
     public static function store() {
         $params = $_POST;
         $user = parent::get_user_logged_in();
-        $kategoriat = $params['valitutKategoriat'];
-        $ainekset = $params['valitutAinekset'];
+        
+        if (isset($params['valitutKategoriat'])){
+            $kategoriat = $params['valitutKategoriat'];
+        } else {
+            $kategoriat = Array();
+        }
+        
+        if (isset($params['valitutAinekset'])){
+            $ainekset = $params['valitutAinekset'];
+        } else {
+            $ainekset = Array();
+        }
         
         $ruoka = new Ruoka(array(
             'nimi' => $params ['nimi'],
@@ -75,23 +85,26 @@ class RuokaController extends BaseController {
         Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoan tiedot päivitetty'));
     }
     
+    // ei vielä toimi
     public static function remove($id){
         $params = $_POST;
         $ruoka = new Ruoka(array('id' => $id));
         
         $ruoka->remove();
         
-        Redirect::to('/ruokalajit', array('message' => 'Ruoka ' . $params ['nimi'] . ' poistettu.'));
+        Redirect::to('/ruokalajit/', array('message' => 'Ruoka ' . $params ['nimi'] . ' poistettu.'));
     }
     
     public function luoValittujenLista($valitut, $kaikki){
         $kategoriat = Array();
+        
         foreach($kaikki as $k){
             foreach($valitut as $v){
-                if(strcmp(strtolower($k), strtolower($v)) == 0){
-                    $kategoriat[] = new Kategoria(array('nimi' => $k, 'valittu' => true));
+                
+                if($k->id === $v->id){
+                    $kategoriat[] = new Kategoria(array('nimi' => $k->nimi, 'valittu' => true));
                 } else {
-                    $kategoriat[] = new Kategoria(array('nimi'=> $k, 'valittu' => false));
+                    $kategoriat[] = new Kategoria(array('nimi'=> $k->nimi, 'valittu' => false));
                 }
             }
         }

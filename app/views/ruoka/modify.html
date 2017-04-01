@@ -30,7 +30,7 @@
 
         <select name = "valitutAinekset[]" multiple class="form-control" id="sel2">
             {% for aines in ainekset %}
-            <option>{{aines}}</option>
+            <option>{{aines.nimi}}</option>
             {% endfor %}
         </select>
     </div>
