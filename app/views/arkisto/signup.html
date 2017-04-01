@@ -4,9 +4,15 @@
 <h1>Tervetuloa Ruoka-arkistoon!</h1>
 <br/>
 
-<h1>Rekisteröidy käyttäjäksi</h1>
+<h2>Rekisteröidy käyttäjäksi</h2>
 
-    <form method="post" action="{{base_path}}/login">
+{% if message %}
+<div class="alert alert-danger">
+    {{message}}
+</div>
+{% endif %}
+
+    <form method="post" action="{{base_path}}/signup">
     <div class="form-group">
       <label>Anna käyttäjätunnus:</label>
       <input type="text" class="form-control" name="username" value="{{username}}">
@@ -17,12 +23,7 @@
       <input type="password" class="form-control" name="password">
     </div>
 
-    <button type="submit" class="btn btn-primary">Luo käyttäjä</button>
+    <button type="submit" class="btn btn-success">Rekisteröidy</button>
   </form>
-
-<p>
-    <a href="{{base_path}}/signup" class="btn btn-success">Rekisteröidy</a>
-</p>
-
 
 {% endblock %}

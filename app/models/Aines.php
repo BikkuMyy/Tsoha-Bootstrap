@@ -14,13 +14,14 @@ class Aines extends BaseModel {
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT nimi FROM Aines ORDER BY nimi');
+        $query = DB::connection()->prepare('SELECT * FROM Aines ORDER BY nimi');
         $query->execute();
         $rivit = $query->fetchAll();
         $ainekset = array();
 
         foreach ($rivit as $rivi) {
-            $ainekset[] = $rivi['nimi'];
+            $ainekset[] = new Aines(array('id' => $rivi['id'],
+                                          'nimi' => $rivi['nimi']));
         }
 
         return $ainekset;
@@ -34,7 +35,7 @@ class Aines extends BaseModel {
         $rivi = $query->fetch();
 
         if ($rivi) {
-            $aines = $rivi['nimi'];
+            $aines = new Aines(array('id'=> $id, 'nimi' => $rivi['nimi']));
         }
 
         return $aines;
@@ -76,11 +77,7 @@ class Aines extends BaseModel {
         foreach ($rivit as $rivi) {
             $ainekset[] = self::find($rivi['aines']);
         }
-
-//        if (empty($ainekset)) {
-//            $ainekset[] = "";
-//        }
-//        
+        
         return $ainekset;
     }
     
@@ -89,7 +86,14 @@ class Aines extends BaseModel {
                                             . '(:ruoka, :aines)');
         $query->execute(array('ruoka' => $ruoka_id,
                               'aines' => $this->id));
-        
+    }
+    
+    public function poistaRuokaAines($ruoka_id){
+        $query = DB::connection()->prepare('DELETE FROM RuokaAines '
+                                         . 'WHERE ruoka = : ruoka '
+                                         . 'AND aines = :aines');
+        $query->execute(array('ruoka' => $ruoka_id, 
+                              'aines' => $this->id));
     }
 
 }

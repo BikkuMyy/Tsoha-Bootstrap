@@ -44,16 +44,16 @@ class RuokaController extends BaseController {
     
     public static function modify($id) {
         $ruoka = Ruoka::find($id);
-        $kategoriat = Kategoria::all();
-        $valitutKategoriat = Kategoria::kategoriat($id);
-        $ainekset = Aines::all();
-        $valitutAinekset = Aines::ainekset($id);
+        $kategoriat = self::luoValittujenLista(Kategoria::kategoriat($id), Kategoria::all());
+        $ainekset = self::luoValittujenLista(Aines::ainekset($id), Aines::all());
+//        $kategoriat = Kategoria::all();
+//        $valitutKategoriat = Kategoria::kategoriat($id);
+//        $ainekset = Aines::all();
+//        $valitutAinekset = Aines::ainekset($id);
         
         View::make('ruoka/modify.html', array('ruoka' => $ruoka, 
                                         'kategoriat' => $kategoriat,
-                                        'valitutKategoriat' => $valitutKategoriat,
-                                        'ainekset' => $ainekset,
-                                        'valitutAinekset' => $valitutAinekset));
+                                        'ainekset' => $ainekset));
     }
     
     public function update($id){
@@ -82,6 +82,19 @@ class RuokaController extends BaseController {
         $ruoka->remove();
         
         Redirect::to('/ruokalajit', array('message' => 'Ruoka ' . $params ['nimi'] . ' poistettu.'));
+    }
+    
+    public function luoValittujenLista($valitut, $kaikki){
+        $kategoriat = Array();
+        foreach($kaikki as $k){
+            foreach($valitut as $v){
+                if(strcmp(strtolower($k), strtolower($v)) == 0){
+                    $kategoriat[] = new Kategoria(array('nimi' => $k, 'valittu' => true));
+                } else {
+                    $kategoriat[] = new Kategoria(array('nimi'=> $k, 'valittu' => false));
+                }
+            }
+        }
     }
 
 }

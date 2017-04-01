@@ -8,6 +8,10 @@ $routes->get('/sandbox', function() {
     HelloWorldController::sandbox();
 });
 
+$routes->get('/etusivu', function (){
+    ArkistoController::etusivu(); 
+});
+
 $routes->get('/login', function() {
     ArkistoController::login();
 });
@@ -20,7 +24,7 @@ $routes->get('/signup', function(){
     ArkistoController::signup();
 });
 
-$routes->post('signup', function(){
+$routes->post('/signup', function(){
     ArkistoController::handle_signup(); 
 });
 

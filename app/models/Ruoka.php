@@ -78,13 +78,20 @@ class Ruoka extends BaseModel {
     public function update(){
         $query = DB::connection()->prepare('UPDATE Ruoka SET nimi = :nimi, kommentti = :kommentti');
         $query->execute(array('nimi' => $this->nimi,
-                              'kommentti' => $this.kommentti));
+                              'kommentti' => $this->kommentti));
         
         //Kategorioiden ja ainesten päivitys
     }
     
     public static function remove(){
-        //poistaa rivin tietokannasta
+        $kategoriat = Kategoria::kategoriat($this->id);
+        foreach ($kategoriat as $k){
+            $k->poistaRuokaKategoria($this->id);
+        }
+        $ainekset = Aines::ainekset($this->id);
+        foreach ($ainekset as $a){
+            $a->poistaRuokaAines($this->id);
+        }
     }
     
     public function lisaaKategoriat(){

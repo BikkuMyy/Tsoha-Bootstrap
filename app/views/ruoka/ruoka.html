@@ -17,14 +17,14 @@
 <h3>Kategoriat</h3>
 {% for kategoria in ruoka.kategoriat %}
 <ul>
-    <li>{{kategoria}}</li>
+    <li>{{kategoria.nimi}}</li>
 </ul>
 {% endfor %}
 
 <h3>Pääraaka-aineet</h3>
 {% for aines in ruoka.ainekset %}
 <ul>
-    <li>{{aines}}</li>
+    <li>{{aines.nimi}}</li>
 </ul>
 {% endfor %} 
 

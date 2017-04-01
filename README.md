@@ -9,6 +9,7 @@
 
 ## Tähän mennessä toteutetut toiminnot:
 * kirjautuminen (sisään pääsee käyttäjätunnuksella 'Testaaja' ja salasanalla 'testi')
+* uuden käyttäjän rekisteröityminen
 * käyttäjän ruokalajien listausnäkymä
 * kaikkien kategorioiden ja ainesten listausnäkymät
 * uuden aineksen tai kategorian lisääminen

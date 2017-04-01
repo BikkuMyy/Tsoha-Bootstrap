@@ -47,17 +47,21 @@ class Kayttaja extends BaseModel {
         return $kayttaja;
     }
     
-    public static function save(){
+    public function save(){
         $query = DB::connection()->prepare('INSERT INTO Kayttaja '
                                            . '(kayttajatunnus, salasana) '
-                                           . 'VALUES (:kayttajatunnus, salasana) '
+                                           . 'VALUES (:kayttajatunnus, :salasana) '
                                            . 'RETURNING id');
         
         $query->execute(array('kayttajatunnus' => $this->kayttajatunnus,
                               'salasana' => $this->salasana));
         
-        $rivi = $query.fetch();
+        $rivi = $query->fetch();
         $this->id = $rivi['id'];
+    }
+    
+    public function update(){
+        //käyttäjän tietojen päivittäminen (käyttäjätunnuksen tai salasanan vaihto)
     }
     
     public static function authenticate($username, $password){
@@ -71,10 +75,25 @@ class Kayttaja extends BaseModel {
         if($rivi){
             return new Kayttaja(array(
                 'id' => $rivi['id'],
-                'kayttajatunnus' => $rivi['kayttajatunnus']
-            ));
+                'kayttajatunnus' => $rivi['kayttajatunnus']));
         } else {
             return NULL;
         }
     }
+    
+    public static function onkoKaytossa($tunnus){
+        $query=DB::connection()->prepare('SELECT kayttajatunnus FROM Kayttaja '
+                                       . 'WHERE kayttajatunnus = :tunnus LIMIT 1');
+        
+        $query->execute(array('tunnus' => $tunnus));
+        $rivi = $query->fetch();
+        
+        if($rivi){
+            return true;
+        }
+        return false;
+        
+    }
+    
+    
 }

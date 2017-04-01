@@ -14,7 +14,7 @@
 
         <select name="valitutKategoriat[]" multiple class="form-control" id="sel1">
             {% for kategoria in kategoriat %}
-            <option>{{kategoria}}</option>
+            <option>{{kategoria.nimi}}</option>
             {% endfor %}
         </select>
 
@@ -28,7 +28,7 @@
 
         <select name = "valitutAinekset[]" multiple class="form-control" id="sel2">
             {% for aines in ainekset %}
-            <option> {{aines}}</option>
+            <option> {{aines.nimi}}</option>
             {% endfor %}
         </select>
     </div>

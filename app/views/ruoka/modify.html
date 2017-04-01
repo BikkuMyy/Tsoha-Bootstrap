@@ -13,8 +13,10 @@
         <label for="sel1">Valitse useampi pitämällä CTRL-näppäintä pohjassa</label>
 
         <select name="valitutKategoriat[]" multiple class="form-control" id="sel1">
-            {% for kategoria in kategoriat %}
-            <option>{{kategoria}}</option>
+            {% for kategoria in kategoriat if kategoria.valittu %}
+            <option selected>{{kategoria.nimi}}</option>
+            {% else %}
+            <option>{{kategoria.nimi}}</option>
             {% endfor %}
         </select>
 
@@ -43,7 +45,7 @@
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Tallenna</button>
     </div>
-    
+
     <a class="btn btn-danger" href="{{base_path}}/ruokalajit/{{ruoka.id}}">Peruuta</a>
 
 </form>

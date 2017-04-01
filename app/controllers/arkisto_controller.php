@@ -11,6 +11,10 @@ class ArkistoController extends BaseController{
         View::make('base.html');
     }
     
+    public static function etusivu(){
+        View::make('arkisto/etusivu.html');
+    }
+    
     public static function login() {
         View::make('arkisto/login.html');
     }
@@ -25,15 +29,25 @@ class ArkistoController extends BaseController{
             $_SESSION['user'] = $kayttaja->id;
         }
         
-        Redirect::to('/ruokalajit', array('message' => 'Tervetuloa ' . $kayttaja->kayttajatunnus . '!'));
+        Redirect::to('/etusivu', array('message' => 'Tervetuloa ' . $kayttaja->kayttajatunnus . '!'));
     }
     
     public static function signup(){
-        View:make('arkisto/signup.html');
+        View::make('arkisto/signup.html');
     }
     
     public static function handle_signup(){
-        // tarkistetaan, onko käyttäjätunnus käytettävissä
-        // luodaan uusi käyttäjä
+        $params = $_POST;
+        
+        if(Kayttaja::onkoKaytossa($params['username'])){
+            Redirect::to('/signup', array('message' => 'Valitsemasi käyttäjätunnus '
+                                          . $params['username'] . ' on jo käytössä.'));
+        } else {
+            $kayttaja = new Kayttaja(array('kayttajatunnus' => $params['username'], 
+                                           'salasana' => $params['password']));
+            $kayttaja->save();
+            
+            Redirect::to('/login', array('message' => 'Uusi käyttäjä luotu onnistuneesti. Voit nyt kirjautua sisään.'));
+        }
     }
 }

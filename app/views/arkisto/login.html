@@ -6,6 +6,12 @@
 <h1>Tervetuloa Ruoka-arkistoon!</h1>
 <br/>
 
+{% if message %}
+<div class="alert alert-success">
+  {{message}}
+</div>
+{% endif %}
+
 <h1>Kirjaudu sisään</h1>
 
     <form method="post" action="{{base_path}}/login">
