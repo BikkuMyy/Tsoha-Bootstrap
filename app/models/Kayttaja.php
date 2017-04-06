@@ -11,6 +11,15 @@ class Kayttaja extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        //$this->$validators('validate_nimi', 'validate_salasana');
+    }
+    
+    public function validate_nimi(){
+        parent::validate_string_length($this->nimi, 3);
+    }
+    
+    public function validate_salasana(){
+        parent::validate_string_length($this->nimi, 5);
     }
 
     public static function all() {

@@ -10,16 +10,10 @@
 <h1>{{ruoka.nimi}}</h1>
 <!-- Painikkeet -->
 
-<!--ei vielä toimi-->
-<form method="post" action ="{{base_path}}/ruoka/{{ruoka.id}}/remove">
-    <p>
-        <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify" class="btn btn-default">Muokkaa</a>
-    </p>
-
-    <div class="form-group">
-        <button type="submit" class="btn btn-danger">Poista</button>
-    </div>
-</form>
+<p>
+    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify" class="btn btn-default">Muokkaa</a>
+    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/delete" class="btn btn-danger">Poista</a>
+</p>
 
 <!-- Tiedot -->
 <h3>Kategoriat</h3>

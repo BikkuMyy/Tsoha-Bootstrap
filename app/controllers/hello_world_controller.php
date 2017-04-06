@@ -6,11 +6,9 @@ class HelloWorldController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-        $ruoat = Ruoka::all();
-        $ruoka = Ruoka::find(1);
-        
-        Kint::dump($ruoat);
-        Kint::dump($ruoka);
+        $ruoka = new Ruoka(array('nimi' => 'g'));
+        $errors = $ruoka->errors();
+        Kint:dump($errors);
     }
 
 }

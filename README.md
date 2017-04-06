@@ -15,6 +15,8 @@
 * uuden aineksen tai kategorian lisääminen
 * yksittäisen ruokalajin esittelynäkymä
 * uuden ruokalajin lisääminen arkistoon
+* ruokalajin poistaminen arkistosta
+* ruokalajin tietojen muokkaaminen
 
 ## Työn aihe
 

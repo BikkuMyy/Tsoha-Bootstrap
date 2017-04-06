@@ -12,6 +12,11 @@ class Kategoria extends BaseModel {
     public function __construct($attributes) {
         parent::__construct($attributes);
     }
+    
+    public function validate_nimi(){
+        parent::validate_string_length($this->nimi, 3);
+        
+    }
 
     public static function all() {
         $query = DB::connection()->prepare('SELECT * FROM Kategoria ORDER BY nimi');
@@ -44,6 +49,7 @@ class Kategoria extends BaseModel {
     public static function findBy($nimi) {
         $query = DB::connection()->prepare('SELECT * FROM Kategoria '
                                          . 'WHERE nimi = :nimi LIMIT 1');
+        
         $query->execute(array('nimi' => $nimi));
         $rivi = $query->fetch();
 
@@ -67,7 +73,7 @@ class Kategoria extends BaseModel {
 
     public static function kategoriat($ruoka_id) {
         $query = DB::connection()->prepare('SELECT kategoria FROM RuokaKategoria '
-                . 'WHERE ruoka = :id');
+                                            . 'WHERE ruoka = :id');
 
         $query->execute(array('id' => $ruoka_id));
 
@@ -115,7 +121,8 @@ class Kategoria extends BaseModel {
                                          . 'WHERE kategoria = :kategoria '
                                          . 'AND ruoka = :ruoka');
         
-        $query->execute(array('ruoka' => $ruoka_id, 'kategoria' => $this->id));
+        $query->execute(array('ruoka' => $ruoka_id, 
+                              'kategoria' => $this->id));
     }
 
 }

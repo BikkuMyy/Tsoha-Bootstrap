@@ -14,11 +14,17 @@ class Ruoka extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        //$this->$validators = array('validate_nimi', 'validate_');
+        //$this->$validators = array('validate_nimi');
+    }
+    
+    public function validate_nimi(){
+        parent::validate_string_length($this->nimi, 3);
     }
 
     public static function all($kayttaja) {
-        $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE kayttaja = :kayttaja');
+        $query = DB::connection()->prepare('SELECT * FROM Ruoka '
+                                         . 'WHERE kayttaja = :kayttaja');
+        
         $query->execute(array('kayttaja' => $kayttaja));
         $rivit = $query->fetchAll();
         $ruoat = array();
@@ -59,6 +65,7 @@ class Ruoka extends BaseModel {
     }
     
     public function save(){
+        
         $query = DB::connection()->prepare('INSERT INTO Ruoka '
                                            . '(nimi, kayttokerrat, kommentti, kayttaja) '
                                            . 'VALUES (:nimi, 0, :kommentti, :kayttaja) '
@@ -76,14 +83,31 @@ class Ruoka extends BaseModel {
     }
     
     public function update(){
-        $query = DB::connection()->prepare('UPDATE Ruoka SET nimi = :nimi, kommentti = :kommentti');
-        $query->execute(array('nimi' => $this->nimi,
+        $query = DB::connection()->prepare('UPDATE Ruoka SET nimi = :nimi, kommentti = :kommentti '
+                                         . 'WHERE id = :id');
+        
+        $query->execute(array('id' => $this->id, 
+                              'nimi' => $this->nimi,
                               'kommentti' => $this->kommentti));
         
-        //Kategorioiden ja ainesten päivitys
+//        $params = $_POST;
+        
+//        if (isset($params['valitutKategoriat'])){
+//            $valitutKategoriat = $params['valitutKategoriat'];
+//        } else {
+//            $valitutKategoriat = Array();
+//        }
+        Kategoria::paivitaKategoriat($this->kategoriat, $this->id);
+        
+//        if (isset($params['valitutAinekset'])){
+//            $valitutAinekset = $params['valitutAinekset'];
+//        } else {
+//            $valitutAinekset = Array();
+//        }
+        Aines::paivitaAinekset($this->ainekset, $this->id);
     }
     
-    public static function remove(){
+    public function remove(){
         $kategoriat = Kategoria::kategoriat($this->id);
         foreach ($kategoriat as $k){
             $k->poistaRuokaKategoria($this->id);
@@ -92,6 +116,9 @@ class Ruoka extends BaseModel {
         foreach ($ainekset as $a){
             $a->poistaRuokaAines($this->id);
         }
+        
+        $query = DB::connection()->prepare('DELETE FROM Ruoka WHERE id = :id');
+        $query->execute(array('id' => $this->id));
     }
     
     public function lisaaKategoriat(){

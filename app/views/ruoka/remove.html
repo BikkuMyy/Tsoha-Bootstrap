@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Vahvista poisto</h1>
+
+<h3>Haluatko varmasti poistaa ruokalajin {{ruoka.nimi}} arkistosta lopullisesti?</h3>
+
+<form method="post" action ="{{base_path}}/ruoka/{{ruoka.id}}/remove">
+    <p>
+        <a href="{{base_path}}/ruokalajit/{{ruoka.id}}" class="btn btn-default">Peruuta</a>
+    </p>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Poista</button>
+    </div>
+</form>
+{% endblock %}
