@@ -51,7 +51,7 @@ class RuokaController extends BaseController {
         }
         
         $ruoka->save();
-        Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoka ' . $params ['nimi'] 
+        Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoka ' . $ruoka->nimi 
                                                       . ' lisätty arkistoosi!'));
     }
 

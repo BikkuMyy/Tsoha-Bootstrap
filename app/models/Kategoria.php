@@ -11,10 +11,11 @@ class Kategoria extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_nimi');
     }
     
     public function validate_nimi(){
-        parent::validate_string_length($this->nimi, 3, 20);
+        return parent::validate_string_length($this->nimi, 3, 20);
         
     }
 

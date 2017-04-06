@@ -22,7 +22,7 @@ class ArkistoController extends BaseController {
     public static function handle_login() {
         $params = $_POST;
         
-        //tähän vielä validointi?
+        //tähän vielä validointi
         
         $kayttaja = Kayttaja::authenticate($params['username'], $params['password']);
 
@@ -53,7 +53,7 @@ class ArkistoController extends BaseController {
         
         if($kayttaja->onkoKaytossa()) {
             View::make('arkisto/signup.html', array('message' => 'Valitsemasi käyttäjätunnus '
-                                        . $params['username'] . ' on jo käytössä.'));
+                                        . $kayttaja->kayttajatunnus . ' on jo käytössä.'));
         } else {
             $kayttaja->save();
             Redirect::to('/login', array('message' => 'Uusi käyttäjä luotu onnistuneesti. '
