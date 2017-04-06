@@ -20,8 +20,7 @@ class RuokaController extends BaseController {
     public static function create() {
         $kategoriat = Kategoria::all();
         $ainekset = Aines::all();
-        View::make('ruoka/new.html', array('kategoriat' => $kategoriat,
-            'ainekset' => $ainekset));
+        View::make('ruoka/new.html', array('kategoriat' => $kategoriat,'ainekset' => $ainekset));
     }
 
     public static function store() {
@@ -31,30 +30,29 @@ class RuokaController extends BaseController {
         $kategoriat = self::valitut($params['valitutKategoriat']);
         $ainekset = self::valitut($params['valitutAinekset']);
 
-//        if (isset($params['valitutKategoriat'])){
-//            $kategoriat = $params['valitutKategoriat'];
-//        } else {
-//            $kategoriat = array();
-//        }
-//        
-//        if (isset($params['valitutAinekset'])){
-//            $ainekset = $params['valitutAinekset'];
-//        } else {
-//            $ainekset = array();
-//        }
-
         $ruoka = new Ruoka(array('nimi' => $params ['nimi'],
             'kommentti' => $params ['kommentti'],
             'kayttaja' => $user->id,
             'kategoriat' => $kategoriat,
             'ainekset' => $ainekset));
+        
 
         $errors = $ruoka->errors();
-        if (count($errors > 0)) {
-            View::make('ruoka/new.html', array('errors' => $errors, 'ruoka' => $ruoka));
+        if (count($errors) > 0) {
+//            $valitutKategoriat = self::luoValittujenLista($kategoriat, Kategoria::all());
+//            $valitutAinekset = self::luoValittujenLista($ainekset, Aines::all());
+            $valitutAinekset = Aines::all();
+            $valitutKategoriat = Kategoria::all();
+            
+            View::make('ruoka/new.html', array('errors' => $errors, 
+                                               'ruoka' => $ruoka, 
+                                               'ainekset' => $valitutAinekset,
+                                               'kategoriat' => $valitutKategoriat));
         }
+        
         $ruoka->save();
-        Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoka ' . $params ['nimi'] . ' lisätty arkistoosi!'));
+        Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoka ' . $params ['nimi'] 
+                                                      . ' lisätty arkistoosi!'));
     }
 
     public static function modify($id) {
@@ -62,9 +60,6 @@ class RuokaController extends BaseController {
 
         $kategoriat = self::luoValittujenLista(Kategoria::kategoriat($id), Kategoria::all());
         $ainekset = self::luoValittujenLista(Aines::ainekset($id), Aines::all());
-//        $kategoriat = Kategoria::all();
-//        $ainekset = Aines::all();
-        //Kint::dump($kategoriat);
 
         View::make('ruoka/modify.html', array('ruoka' => $ruoka,
             'kategoriat' => $kategoriat,
@@ -77,18 +72,6 @@ class RuokaController extends BaseController {
 
         $kategoriat = self::valitut($params['valitutKategoriat']);
         $ainekset = self::valitut($params['valitutAinekset']);
-
-//        if (isset($params['valitutKategoriat'])){
-//            $kategoriat = $params['valitutKategoriat'];
-//        } else {
-//            $kategoriat = array();
-//        }
-//        
-//        if (isset($params['valitutAinekset'])){
-//            $ainekset = $params['valitutAinekset'];
-//        } else {
-//            $ainekset = array();
-//        }
 
         $ruoka = new Ruoka(array('id' => $id,
             'nimi' => $params ['nimi'],
@@ -117,8 +100,6 @@ class RuokaController extends BaseController {
     public function luoValittujenLista($valitut, $kaikki) {
         $valittujenLista = Array();
 
-
-
         foreach ($kaikki as $k) {
 
             if (empty($valitut)) {
@@ -135,7 +116,7 @@ class RuokaController extends BaseController {
                 }
             }
         }
-        Kint::dump($valittujenLista);
+        //Kint::dump($valittujenLista);
         return $valittujenLista;
     }
 

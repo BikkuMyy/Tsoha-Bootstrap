@@ -28,15 +28,20 @@ class BaseModel {
         return $errors;
     }
 
-    public function validate_string_length($string, $length) {
+    public function validate_string_length($string, $min, $max) {
         $errors = array();
 
         if ($string == '' || $string == NULL) {
             $errors[] = 'Nimi ei saa olla tyhjä!';
         }
-        if (strlen($string) < $length) {
-            $errors[] = 'Valitse vähintään ' . $length . ' merkkiä pitkä nimi!';
+        if (strlen($string) < $min) {
+            $errors[] = 'Valitse vähintään ' . $min . ' merkkiä pitkä nimi!';
         }
+        
+        if(strlen($string) >= $max){
+            $errors[] = 'Nimi ei saa olla yli ' . $max . 'merkkiä pitkä.';
+        }
+        
         return $errors;
     }
 

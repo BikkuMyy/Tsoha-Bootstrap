@@ -14,7 +14,7 @@ class Kategoria extends BaseModel {
     }
     
     public function validate_nimi(){
-        parent::validate_string_length($this->nimi, 3);
+        parent::validate_string_length($this->nimi, 3, 20);
         
     }
 

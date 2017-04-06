@@ -3,13 +3,13 @@ CREATE TABLE Kayttaja
 (
 id SERIAL PRIMARY KEY,
 kayttajatunnus varchar(20) UNIQUE NOT NULL,
-salasana varchar(59) NOT NULL
+salasana varchar(20) NOT NULL
 );
 
 CREATE TABLE Ruoka
 (
 id SERIAL PRIMARY KEY,
-nimi varchar(50) NOT NULL,
+nimi varchar(25) NOT NULL,
 kayttokerrat integer,
 kommentti text,
 kayttaja integer NOT NULL,

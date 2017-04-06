@@ -11,15 +11,15 @@ class Kayttaja extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        //$this->$validators('validate_nimi', 'validate_salasana');
+        $this->validators = array('validate_tunnus', 'validate_salasana');
     }
     
-    public function validate_nimi(){
-        parent::validate_string_length($this->nimi, 3);
+    public function validate_tunnus(){
+        return parent::validate_string_length($this->kayttajatunnus, 3, 20);
     }
     
     public function validate_salasana(){
-        parent::validate_string_length($this->nimi, 5);
+        return parent::validate_string_length($this->salasana, 5, 20);
     }
 
     public static function all() {
@@ -90,11 +90,11 @@ class Kayttaja extends BaseModel {
         }
     }
     
-    public static function onkoKaytossa($tunnus){
+    public function onkoKaytossa(){
         $query=DB::connection()->prepare('SELECT kayttajatunnus FROM Kayttaja '
                                        . 'WHERE kayttajatunnus = :tunnus LIMIT 1');
         
-        $query->execute(array('tunnus' => $tunnus));
+        $query->execute(array('tunnus' => $this->kayttajatunnus));
         $rivi = $query->fetch();
         
         if($rivi){

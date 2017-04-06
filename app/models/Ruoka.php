@@ -14,11 +14,12 @@ class Ruoka extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        //$this->$validators = array('validate_nimi');
+        $this->validators = array('validate_nimi');
     }
     
     public function validate_nimi(){
-        parent::validate_string_length($this->nimi, 3);
+        return parent::validate_string_length($this->nimi, 3, 25);
+        
     }
 
     public static function all($kayttaja) {
@@ -89,21 +90,9 @@ class Ruoka extends BaseModel {
         $query->execute(array('id' => $this->id, 
                               'nimi' => $this->nimi,
                               'kommentti' => $this->kommentti));
-        
-//        $params = $_POST;
-        
-//        if (isset($params['valitutKategoriat'])){
-//            $valitutKategoriat = $params['valitutKategoriat'];
-//        } else {
-//            $valitutKategoriat = Array();
-//        }
+
         Kategoria::paivitaKategoriat($this->kategoriat, $this->id);
         
-//        if (isset($params['valitutAinekset'])){
-//            $valitutAinekset = $params['valitutAinekset'];
-//        } else {
-//            $valitutAinekset = Array();
-//        }
         Aines::paivitaAinekset($this->ainekset, $this->id);
     }
     
