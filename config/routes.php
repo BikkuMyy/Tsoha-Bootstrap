@@ -1,15 +1,17 @@
 <?php
 
+function check_logged_in(){
+    BaseController::check_logged_in();
+}
+
+//ARKISTO
+
 $routes->get('/', function() {
     ArkistoController::index();
 });
 
 $routes->get('/sandbox', function() {
     HelloWorldController::sandbox();
-});
-
-$routes->get('/etusivu', function () {
-    ArkistoController::etusivu();
 });
 
 $routes->get('/login', function() {
@@ -28,58 +30,86 @@ $routes->post('/signup', function() {
     ArkistoController::handle_signup();
 });
 
-$routes->get('/ruokalajit', function() {
+$routes->post('/logout', function() {
+    ArkistoController::logout();
+});
+
+$routes->get('/etusivu', 'check_logged_in', function () {
+    ArkistoController::etusivu();
+});
+
+$routes->get('/settings', 'check_logged_in', function(){
+    ArkistoController::settings();
+});
+
+$routes->post('/update', 'check_logged_in', function(){
+    ArkistoController::update();
+});
+
+$routes->get('/delete', 'check_logged_in', function() {
+    ArkistoController::delete();
+});
+
+$routes->post('/delete', 'check_logged_in', function(){
+    ArkistoController::remove();
+});
+
+//RUOKA
+
+$routes->get('/ruokalajit', 'check_logged_in', function() {
     RuokaController::index();
 });
 
-$routes->post('/ruoka', function() {
+$routes->post('/ruoka', 'check_logged_in', function() {
     RuokaController::store();
 });
 
-$routes->get('/ruoka/new', function() {
+$routes->get('/ruoka/new', 'check_logged_in', function() {
     RuokaController::create();
 });
 
-$routes->get('/ainekset', function() {
-    AKController::ainekset();
-});
-
-$routes->get('/aines', function() {
-    AKController::lisaaAines();
-});
-
-$routes->post('/aines', function() {
-    AKController::tallennaAines();
-});
-
-$routes->get('/kategoriat', function() {
-    AKController::kategoriat();
-});
-
-$routes->get('/kategoria', function () {
-    AKController::lisaaKategoria();
-});
-
-$routes->post('/kategoria', function() {
-    AKController::tallennaKategoria();
-});
-
-$routes->get('/ruokalajit/:id', function($id) {
+$routes->get('/ruokalajit/:id', 'check_logged_in', function($id) {
     RuokaController::single($id);
 });
 
-$routes->post('/ruoka/:id/update', function($id) {
+$routes->post('/ruoka/:id/update', 'check_logged_in', function($id) {
     RuokaController::update($id);
 });
 
-$routes->get('/ruokalajit/:id/modify', function($id) {
+$routes->get('/ruokalajit/:id/modify', 'check_logged_in', function($id) {
     RuokaController::modify($id);
 });
 
-$routes->post('/ruoka/:id/remove', function($id) {
+$routes->post('/ruoka/:id/remove', 'check_logged_in', function($id) {
     RuokaController::remove($id);
 });
 
-$routes->get('/ruokalajit/:id/delete', function($id) {
+$routes->get('/ruokalajit/:id/delete', 'check_logged_in', function($id) {
     RuokaController::delete($id);
+});
+
+//AINES & KATEGORIA
+
+$routes->get('/ainekset', 'check_logged_in', function() {
+    AKController::ainekset();
+});
+
+$routes->get('/aines', 'check_logged_in', function() {
+    AKController::lisaaAines();
+});
+
+$routes->post('/aines', 'check_logged_in', function() {
+    AKController::tallennaAines();
+});
+
+$routes->get('/kategoriat', 'check_logged_in', function() {
+    AKController::kategoriat();
+});
+
+$routes->get('/kategoria', 'check_logged_in', function () {
+    AKController::lisaaKategoria();
+});
+
+$routes->post('/kategoria', 'check_logged_in', function() {
+    AKController::tallennaKategoria();
 });

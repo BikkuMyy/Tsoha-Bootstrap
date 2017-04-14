@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h1>Omat asetukset</h1>
+
+<!--<h2>Tilasto?</h2>-->
+
+<h2>Vaihda käyttäjänimi</h2>
+<form method="post" action="{{base_path}}/update">
+    <div class="form-group">
+        <label>Tämänhetkinen käyttäjätunnus:</label>
+        <input type="text" class="form-control" name="old_username" value="{{kayttajatunnus}}">
+    </div>
+
+    <div class="form-group">
+        <label>Uusi käyttäjätunnus:</label>
+        <input type="text" class="form-control" name="new_username">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Vaihda</button>
+</form>
+
+<h2>Vaihda salasana</h2>
+<form method="post" action="{{base_path}}/update">
+    <div class="form-group">
+        <label>Tämänhetkinen salasana:</label>
+        <input type="password" class="form-control" name="old_password" value="{{kayttajatunnus}}">
+    </div>
+
+    <div class="form-group">
+        <label>Uusi salasana:</label>
+        <input type="password" class="form-control" name="new_password">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Vaihda</button>
+
+</form>
+
+
+<h3>Poista käyttäjätili</h3>
+<p><br/>
+    <a href="{{base_path}}/delete" class="btn btn-danger">Poista</a>
+</p>
+{% endblock %}

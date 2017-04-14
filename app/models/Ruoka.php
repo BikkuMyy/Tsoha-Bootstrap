@@ -21,12 +21,17 @@ class Ruoka extends BaseModel {
         return parent::validate_string_length($this->nimi, 3, 25);
         
     }
+    
+    //tarviiko kommentti validoinnin?
+//    public function validate_kommentti(){
+//        return parent::validate_string_length($this->kommentti, $min, $max);
+//    }
 
-    public static function all($kayttaja) {
+    public static function all($kayttaja_id) {
         $query = DB::connection()->prepare('SELECT * FROM Ruoka '
                                          . 'WHERE kayttaja = :kayttaja');
         
-        $query->execute(array('kayttaja' => $kayttaja));
+        $query->execute(array('kayttaja' => $kayttaja_id));
         $rivit = $query->fetchAll();
         $ruoat = array();
 

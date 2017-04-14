@@ -69,10 +69,21 @@ class Kayttaja extends BaseModel {
         $this->id = $rivi['id'];
     }
     
-    public function update(){
-        //käyttäjän tietojen päivittäminen (käyttäjätunnuksen tai salasanan vaihto)
+    public function updateTunnus(){
+        $query = DB::connection()->prepare('UPDATE Kayttaja SET kayttajatunnus = :tunnus');
+        $query->execute(array('tunnus' => $this->kayttajatunnus));
     }
     
+    public function updateSalasana(){
+        $query = DB::connection()->prepare('UPDATE Kayttaja SET salasana = :salasana');
+        $query->execute(array('salasana' => $this->salasana));
+    }
+    
+    public function remove(){
+        $query = DB::connection()->prepare('DELETE FROM Kayttaja WHERE id = :id');
+        $query->execute(array('id' => $this->id));
+    }
+
     public static function authenticate($username, $password){
         $query = DB::connection()->prepare('SELECT * FROM Kayttaja '
                                 . 'WHERE kayttajatunnus = :username '
@@ -100,8 +111,23 @@ class Kayttaja extends BaseModel {
         if($rivi){
             return true;
         }
-        return false;
+        return false;   
+    }
+    
+    public function tarkistaSalasana($salasana){
+        $query=DB::connection()->prepare('SELECT salasana FROM Kayttaja '
+                                       . 'WHERE id = :id '
+                                       . 'AND kayttajatunnus = :kayttajatunnus '
+                                       . 'AND salasana = :salasana');
         
+        $query->execute(array('id' => $this->id,
+                              'kayttajatunnus' => $this->kayttajatunnus,
+                              'salasana' => $salasana));
+        $rivi = $query->fetch();
+        if($rivi){
+            return true;
+        }
+        return false;
     }
     
     

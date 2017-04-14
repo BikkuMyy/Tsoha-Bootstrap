@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if message %}
+<div class="alert alert-warning">
+    {{message}}
+</div>
+{% endif %}
+
+<h1>Vahvista poisto</h1>
+
+<h3>Haluatko varmasti poistaa käyttäjätilin?</h3>
+
+<p>Poistamisen jälkeen kaikki tiedot poistetaan lopullisesti!<br/>
+    Vahvista poisto antamalla salasanasi ja rastittamalla 'ymmärrän poistamisen seuraukset' -laatikko.
+</p>
+
+<form method="post" action ="{{base_path}}/delete">
+    <label>Salasana:</label>
+    <input type='password' class='form-control' name='password'>
+    <div class="checkbox">
+        <label><input type="checkbox" name="checked">
+            Ymmärrän poistamisen seuraukset.</label>
+    </div><br/>
+    <p>
+        <a href="{{base_path}}/settings" class="btn btn-default">Peruuta</a>
+    </p>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Poista</button>
+    </div>
+</form>
+{% endblock %}

@@ -27,6 +27,7 @@ class RuokaController extends BaseController {
         $params = $_POST;
         $user = parent::get_user_logged_in();
 
+        //jos ei valittuja kategorioita tai aineksia, miten tarkistetaan?
         $kategoriat = self::valitut($params['valitutKategoriat']);
         $ainekset = self::valitut($params['valitutAinekset']);
 
@@ -35,7 +36,6 @@ class RuokaController extends BaseController {
             'kayttaja' => $user->id,
             'kategoriat' => $kategoriat,
             'ainekset' => $ainekset));
-        
 
         $errors = $ruoka->errors();
         if (count($errors) > 0) {
@@ -44,8 +44,7 @@ class RuokaController extends BaseController {
             $valitutAinekset = Aines::all();
             $valitutKategoriat = Kategoria::all();
             
-            View::make('ruoka/new.html', array('errors' => $errors, 
-                                               'ruoka' => $ruoka, 
+            View::make('ruoka/new.html', array('errors' => $errors,'ruoka' => $ruoka, 
                                                'ainekset' => $valitutAinekset,
                                                'kategoriat' => $valitutKategoriat));
         }
@@ -79,7 +78,19 @@ class RuokaController extends BaseController {
             'kayttaja' => $user->id,
             'kategoriat' => $kategoriat,
             'ainekset' => $ainekset));
-
+        
+        $errors = $ruoka->errors();
+        if (count($errors) > 0) {
+        //            $valitutKategoriat = self::luoValittujenLista($kategoriat, Kategoria::all());
+        //            $valitutAinekset = self::luoValittujenLista($ainekset, Aines::all());
+            $valitutAinekset = Aines::all();
+            $valitutKategoriat = Kategoria::all();
+            
+            View::make('ruoka/new.html', array('errors' => $errors,'ruoka' => $ruoka, 
+                                               'ainekset' => $valitutAinekset,
+                                               'kategoriat' => $valitutKategoriat));
+        }
+        
         $ruoka->update();
 
         Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoan tiedot päivitetty'));
