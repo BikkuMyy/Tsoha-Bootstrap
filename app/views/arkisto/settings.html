@@ -1,45 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% if message %}
+<div class="alert alert-info">
+    {{message}}
+</div>
+{% endif %}
 
-<h1>Omat asetukset</h1>
+{% if errors %}
+<ul>
+    {% for error in errors %}
+    <li>{{error}}</li>
+    {% endfor %}
+</ul>
+
+{% endif %}
+
+<h1>Omat asetukset</h1><br/>
 
 <!--<h2>Tilasto?</h2>-->
 
-<h2>Vaihda käyttäjänimi</h2>
-<form method="post" action="{{base_path}}/update">
-    <div class="form-group">
-        <label>Tämänhetkinen käyttäjätunnus:</label>
-        <input type="text" class="form-control" name="old_username" value="{{kayttajatunnus}}">
-    </div>
+<h2><a href="{{base_path}}/update" class="text text-primary">Vaihda käyttäjänimi</a></h2>
+<br/>
 
-    <div class="form-group">
-        <label>Uusi käyttäjätunnus:</label>
-        <input type="text" class="form-control" name="new_username">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Vaihda</button>
-</form>
-
-<h2>Vaihda salasana</h2>
-<form method="post" action="{{base_path}}/update">
-    <div class="form-group">
-        <label>Tämänhetkinen salasana:</label>
-        <input type="password" class="form-control" name="old_password" value="{{kayttajatunnus}}">
-    </div>
-
-    <div class="form-group">
-        <label>Uusi salasana:</label>
-        <input type="password" class="form-control" name="new_password">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Vaihda</button>
-
-</form>
+<h2><a href="{{base_path}}/update" class="text text-primary">Vaihda salasana</a></h2>
+<br/>
 
 
 <h3>Poista käyttäjätili</h3>
-<p><br/>
+<p>
     <a href="{{base_path}}/delete" class="btn btn-danger">Poista</a>
 </p>
 {% endblock %}

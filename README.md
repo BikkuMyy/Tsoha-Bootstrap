@@ -14,10 +14,9 @@
 * kaikkien kategorioiden ja ainesten listausnäkymät
 * uuden aineksen tai kategorian lisääminen
 * yksittäisen ruokalajin esittelynäkymä
-* uuden ruokalajin lisääminen arkistoon
-* ruokalajin poistaminen arkistosta
-* ruokalajin tietojen muokkaaminen
-* käyttäjätilin poistaminen
+* uuden ruokalajin lisääminen 
+* ruokalajin poistaminen tai tietojen muokkaaminen
+* käyttäjänimen tai salasanan vaihtaminen ja tilin poistaminen
 
 ## Työn aihe
 

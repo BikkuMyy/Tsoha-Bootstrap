@@ -42,7 +42,11 @@ $routes->get('/settings', 'check_logged_in', function(){
     ArkistoController::settings();
 });
 
-$routes->post('/update', 'check_logged_in', function(){
+$routes->get('/update', 'check_logged_in', function(){
+    ArkistoController::modify();
+});
+
+$routes->post('/modify', 'check_logged_in', function(){
     ArkistoController::update();
 });
 

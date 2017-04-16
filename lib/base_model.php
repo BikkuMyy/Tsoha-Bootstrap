@@ -35,11 +35,11 @@ class BaseModel {
             $errors[] = 'Nimi ei saa olla tyhjä!';
         }
         if (strlen($string) < $min) {
-            $errors[] = 'Valitse vähintään ' . $min . ' merkkiä pitkä nimi!';
+            $errors[] = 'Valitse vähintään ' . $min . ' merkkiä pitkä tunnus/salasana!';
         }
         
         if(strlen($string) >= $max){
-            $errors[] = 'Nimi ei saa olla yli ' . $max . 'merkkiä pitkä.';
+            $errors[] = 'Tunnus/salasana ei saa olla yli ' . $max . 'merkkiä pitkä.';
         }
         
         return $errors;

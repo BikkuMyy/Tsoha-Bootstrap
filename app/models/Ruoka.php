@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of Ruoka
+ * Ruoka-tietokohteen malliluokka
  *
  * @author mari
  */
@@ -11,12 +11,23 @@ class Ruoka extends BaseModel {
     public $kategoriat = array();
     public $ainekset = array();
     
-
+    /**
+     * Konstruktori, joka kutsuu BaseModel-yliluokan construct-metodia
+     * ja määrittää luokanvalidaatiometodien nimet.
+     * 
+     * @param type $attributes luokan attribuutit
+     */
     public function __construct($attributes) {
         parent::__construct($attributes);
         $this->validators = array('validate_nimi');
     }
     
+    /**
+     * Metodi kutsuu BaseModel-yliluokan validointimetodia 
+     * ja palauttaa mahdolliset virheet.
+     * 
+     * @return array validoinnissa huomatut virheet
+     */
     public function validate_nimi(){
         return parent::validate_string_length($this->nimi, 3, 25);
         
@@ -27,6 +38,13 @@ class Ruoka extends BaseModel {
 //        return parent::validate_string_length($this->kommentti, $min, $max);
 //    }
 
+    /**
+     * Metodi hakee tietokohdetta vastaavasta tietokantataulusta kaikki rivit,
+     * joiden kayttaja-viiteavain vastaa parametrina annettua avainta.
+     * 
+     * @param type $kayttaja_id
+     * @return array löydetyt rivit
+     */
     public static function all($kayttaja_id) {
         $query = DB::connection()->prepare('SELECT * FROM Ruoka '
                                          . 'WHERE kayttaja = :kayttaja');
@@ -48,7 +66,13 @@ class Ruoka extends BaseModel {
         
         return $ruoat;
     }
-    
+    /**
+     * Metodi hakee tietokohdetta vastaavasta tietokantataulusta rivin 
+     * parametrina annetun id:n perusteella.
+     * 
+     * @param type $id
+     * @return Ruoka
+     */
     public static function find($id){
         $query = DB::connection()->prepare('SELECT * FROM Ruoka '
                                             . 'WHERE id = :id LIMIT 1');
@@ -70,6 +94,9 @@ class Ruoka extends BaseModel {
         return $ruoka;
     }
     
+    /**
+     * Metodi tallentaa uuden rivin tietokohdetta vastaavaan tietokantatauluun.
+     */
     public function save(){
         
         $query = DB::connection()->prepare('INSERT INTO Ruoka '
@@ -88,8 +115,13 @@ class Ruoka extends BaseModel {
         self::lisaaAinekset();
     }
     
+    /**
+     * Metodi päivittää tietokohdetta vastaavan tietokantataulun rivin nimen ja kommentin
+     * sekä kutsuu siihen liittyvien liitostauluja päivittäviä metodeja.
+     */
     public function update(){
-        $query = DB::connection()->prepare('UPDATE Ruoka SET nimi = :nimi, kommentti = :kommentti '
+        $query = DB::connection()->prepare('UPDATE Ruoka SET nimi = :nimi, '
+                                         . 'kommentti = :kommentti '
                                          . 'WHERE id = :id');
         
         $query->execute(array('id' => $this->id, 
@@ -101,6 +133,10 @@ class Ruoka extends BaseModel {
         Aines::paivitaAinekset($this->ainekset, $this->id);
     }
     
+    /**
+     * Metodi poistaa rivin tietokohdetta vastaavasta tietokantataulusta 
+     * ja kaikki siihen liittyvät rivit liitostauluista
+     */
     public function remove(){
         $kategoriat = Kategoria::kategoriat($this->id);
         foreach ($kategoriat as $k){
@@ -115,6 +151,9 @@ class Ruoka extends BaseModel {
         $query->execute(array('id' => $this->id));
     }
     
+    /**
+     * Metodi lisää rivejä ruoan ja kategorian väliseen liitostauluun.
+     */
     public function lisaaKategoriat(){
         foreach($this->kategoriat as $k){
             $kategoria = Kategoria::findBy($k);
@@ -122,6 +161,9 @@ class Ruoka extends BaseModel {
         }
     }
     
+    /**
+     * Metodi lisää rivejä ruoan ja aineksen väliseen liitostauluun.
+     */
     public function lisaaAinekset(){
         foreach($this->ainekset as $a){
             $aines = Aines::findBy($a);
