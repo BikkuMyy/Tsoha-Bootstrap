@@ -104,9 +104,15 @@ class Kayttaja extends BaseModel {
     }
 
     /**
-     * Metodi poistaa rivin tietokohdetta vastaavasta tietokantalaulusta.
+     * Metodi poistaa käyttäjän tietokannasta kutsuttuaan poistometodia 
+     * kaikille siihen liitetyille ruokalajeille..
      */
     public function remove() {
+        $ruoat = Ruoka::all($this->id);
+        foreach ($ruoat as $ruoka){
+            $ruoka->remove();
+        }
+        
         $query = DB::connection()->prepare('DELETE FROM Kayttaja WHERE id = :id');
         $query->execute(array('id' => $this->id));
     }
