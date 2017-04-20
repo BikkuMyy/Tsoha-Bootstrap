@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<h2>Haku Ruoka-arkistosta</h2>
+
+<form method="post" action ="{{base_path}}/search">
+    
+    <label>Hae...</label>
+    <div class="checkbox">
+        <label><input type="checkbox" name="own">oman arkiston ruokalajeista</label>
+        <label><input type="checkbox" name="all">kaikkien käyttäjien lisäämistä ruokalajeista</label>
+        <label><input type="checkbox" name="category">kategorioista</label>
+        <label><input type="checkbox" name="ingredient">aineksista</label>
+    </div>
+    
+    <label>Hakusana:</label>
+    <input type='text' class='form-control' name='searchword'>
+    
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Hae</button>
+    </div>
+    
+</form>
+
+{% endblock %}

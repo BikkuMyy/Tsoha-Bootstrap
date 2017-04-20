@@ -1,6 +1,6 @@
 <?php
 
-function check_logged_in(){
+function check_logged_in() {
     BaseController::check_logged_in();
 }
 
@@ -38,15 +38,15 @@ $routes->get('/etusivu', 'check_logged_in', function () {
     ArkistoController::etusivu();
 });
 
-$routes->get('/settings', 'check_logged_in', function(){
+$routes->get('/settings', 'check_logged_in', function() {
     ArkistoController::settings();
 });
 
-$routes->get('/update', 'check_logged_in', function(){
+$routes->get('/update', 'check_logged_in', function() {
     ArkistoController::modify();
 });
 
-$routes->post('/modify', 'check_logged_in', function(){
+$routes->post('/modify', 'check_logged_in', function() {
     ArkistoController::update();
 });
 
@@ -54,7 +54,7 @@ $routes->get('/delete', 'check_logged_in', function() {
     ArkistoController::delete();
 });
 
-$routes->post('/delete', 'check_logged_in', function(){
+$routes->post('/delete', 'check_logged_in', function() {
     ArkistoController::remove();
 });
 
@@ -116,4 +116,14 @@ $routes->get('/kategoria', 'check_logged_in', function () {
 
 $routes->post('/kategoria', 'check_logged_in', function() {
     AKController::tallennaKategoria();
+});
+
+// HAKU
+
+$routes->get('/haku', 'check_logged_in', function() {
+    HakuController::search();
+});
+
+$routes->post('haku', 'check_logged_in', function() {
+    HakuController::makeSearch();
 });

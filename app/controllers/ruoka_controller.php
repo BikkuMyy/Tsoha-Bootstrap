@@ -137,7 +137,7 @@ class RuokaController extends BaseController {
      * Metodi kutsuu parametrina saamansa ruokalakin tietokannasta poistavaa metodia
      * ja uudelleenohjaa ruokalajien listaussivulle.
      * 
-     * @param type $id
+     * @param type $id poistettavan id
      */
     public static function remove($id) {
         $ruoka = new Ruoka(array('id' => $id));
@@ -154,7 +154,7 @@ class RuokaController extends BaseController {
      * 
      * @param array $valitut
      * @param array $kaikki
-     * @return array
+     * @return array lista, jonka olioille asetettu true/false
      */
     public function luoValittujenLista($valitut, $kaikki) {
         
@@ -185,7 +185,7 @@ class RuokaController extends BaseController {
      * ja palauttaa sen tai tyhjän listan.
      * 
      * @param type $valitut
-     * @return array
+     * @return array patametrina saatu tai tyhjä lista
      */
     public static function valitut($valitut) {
         if (isset($valitut)) {
