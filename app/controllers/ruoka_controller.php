@@ -32,7 +32,7 @@ class RuokaController extends BaseController {
     public static function create() {
         $kategoriat = Kategoria::all();
         $ainekset = Aines::all();
-        View::make('ruoka/new.html', array('kategoriat' => $kategoriat,'ainekset' => $ainekset));
+        View::make('ruoka/new.html', array('kategoriat' => $kategoriat, 'ainekset' => $ainekset));
     }
 
     /**
@@ -43,10 +43,9 @@ class RuokaController extends BaseController {
     public static function store() {
         $params = $_POST;
         $user = parent::get_user_logged_in();
-
-        //jos ei valittuja kategorioita tai aineksia, miten tarkistetaan?
-        $kategoriat = self::valitut($params['valitutKategoriat']);
-        $ainekset = self::valitut($params['valitutAinekset']);
+        
+        $kategoriat = self::tarkista($params['valitutKategoriat']);
+        $ainekset = self::tarkista($params['valitutAinekset']);
 
         $ruoka = new Ruoka(array('nimi' => $params ['nimi'],
             'kommentti' => $params ['kommentti'],
@@ -56,19 +55,17 @@ class RuokaController extends BaseController {
 
         $errors = $ruoka->errors();
         if (count($errors) > 0) {
-//            $valitutKategoriat = self::luoValittujenLista($kategoriat, Kategoria::all());
-//            $valitutAinekset = self::luoValittujenLista($ainekset, Aines::all());
-            $valitutAinekset = Aines::all();
-            $valitutKategoriat = Kategoria::all();
-            
-            View::make('ruoka/new.html', array('errors' => $errors,'ruoka' => $ruoka, 
-                                               'ainekset' => $valitutAinekset,
-                                               'kategoriat' => $valitutKategoriat));
+            $valitutKategoriat = self::luoValittujenLista($kategoriat, Kategoria::all());
+            $valitutAinekset = self::luoValittujenLista($ainekset, Aines::all());
+
+            View::make('ruoka/new.html', array('errors' => $errors, 'ruoka' => $ruoka,
+                'ainekset' => $valitutAinekset,
+                'kategoriat' => $valitutKategoriat));
         }
-        
+
         $ruoka->save();
-        Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoka ' . $ruoka->nimi 
-                                                      . ' lisätty arkistoosi!'));
+        Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoka ' . $ruoka->nimi
+            . ' lisätty arkistoosi!'));
     }
 
     /**
@@ -80,12 +77,12 @@ class RuokaController extends BaseController {
         $ruoka = Ruoka::find($ruoka_id);
         $kategoriat = self::luoValittujenLista(Kategoria::kategoriat($ruoka_id), Kategoria::all());
         $ainekset = self::luoValittujenLista(Aines::ainekset($ruoka_id), Aines::all());
-        
+
         View::make('ruoka/modify.html', array('ruoka' => $ruoka,
             'kategoriat' => $kategoriat,
             'ainekset' => $ainekset));
     }
-    
+
     /**
      * Metodi käsittelee ruoan muokkauslomakkeen tiedot, validoi ne 
      * ja kutsuu tietokantataulun riviä muokkaavaa metodia sekä
@@ -97,8 +94,8 @@ class RuokaController extends BaseController {
         $params = $_POST;
         $user = parent::get_user_logged_in();
 
-        $kategoriat = self::valitut($params['valitutKategoriat']);
-        $ainekset = self::valitut($params['valitutAinekset']);
+        $kategoriat = self::tarkista($params['valitutKategoriat']);
+        $ainekset = self::tarkista($params['valitutAinekset']);
 
         $ruoka = new Ruoka(array('id' => $id,
             'nimi' => $params ['nimi'],
@@ -106,19 +103,17 @@ class RuokaController extends BaseController {
             'kayttaja' => $user->id,
             'kategoriat' => $kategoriat,
             'ainekset' => $ainekset));
-        
+
         $errors = $ruoka->errors();
         if (count($errors) > 0) {
-        //            $valitutKategoriat = self::luoValittujenLista($kategoriat, Kategoria::all());
-        //            $valitutAinekset = self::luoValittujenLista($ainekset, Aines::all());
-            $valitutAinekset = Aines::all();
-            $valitutKategoriat = Kategoria::all();
-            
-            View::make('ruoka/new.html', array('errors' => $errors,'ruoka' => $ruoka, 
-                                               'ainekset' => $valitutAinekset,
-                                               'kategoriat' => $valitutKategoriat));
+            $valitutKategoriat = self::luoValittujenLista($kategoriat, Kategoria::all());
+            $valitutAinekset = self::luoValittujenLista($ainekset, Aines::all());
+
+            View::make('ruoka/new.html', array('errors' => $errors, 'ruoka' => $ruoka,
+                'ainekset' => $valitutAinekset,
+                'kategoriat' => $valitutKategoriat));
         }
-        
+
         $ruoka->update();
 
         Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => 'Ruoan tiedot päivitetty'));
@@ -157,26 +152,28 @@ class RuokaController extends BaseController {
      * @return array lista, jonka olioille asetettu true/false
      */
     public function luoValittujenLista($valitut, $kaikki) {
-        
+
         $valittujenLista = array();
 
         foreach ($kaikki as $k) {
 
             if (empty($valitut)) {
-                $valittujenLista[] = ($k['valittu'] = false);
+                $k->valittu = false;
+                $valittujenLista[] = $k;
                 continue;
             }
 
             foreach ($valitut as $v) {
 
-                if ($k->id == $v->id) {
-                    $valittujenLista[] = ($k['valittu'] = true);
+                if ($k->nimi == $v) {
+                    $k->valittu = true;
+                    $valittujenLista[] = $k;
                 } else {
-                    $valittujenLista[] =($k['valittu'] = false);
+                    $k->valittu = false;
+                    $valittujenLista[] = $k;
                 }
             }
         }
-        //Kint::dump($valittujenLista);
         return $valittujenLista;
     }
 
@@ -188,11 +185,20 @@ class RuokaController extends BaseController {
      * @return array patametrina saatu tai tyhjä lista
      */
     public static function valitut($valitut) {
-        if (isset($valitut)) {
+        if ($valitut) {
+            
             return $valitut;
         } else {
             return array();
         }
+    }
+    
+    public static function tarkista($lista){
+        if ($lista[0] == 'Valitse...'){
+            array_splice($lista, 0,1);
+            return $lista;
+        }
+        return $lista;
     }
 
 }

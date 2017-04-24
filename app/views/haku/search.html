@@ -7,17 +7,18 @@
 
 <form method="post" action ="{{base_path}}/search">
     
-    <label>Hae...</label>
+    <h3>Hae...</h3>
     <div class="checkbox">
-        <label><input type="checkbox" name="own">oman arkiston ruokalajeista</label>
-        <label><input type="checkbox" name="all">kaikkien käyttäjien lisäämistä ruokalajeista</label>
-        <label><input type="checkbox" name="category">kategorioista</label>
-        <label><input type="checkbox" name="ingredient">aineksista</label>
+        <label><input type="checkbox" name="own">oman arkiston ruokalajeista</label><br/>
+        <label><input type="checkbox" name="all">kaikkien käyttäjien lisäämistä ruokalajeista</label><br/>
+        <label><input type="checkbox" name="category">kategorioista</label><br/>
+        <label><input type="checkbox" name="ingredient">aineksista</label><br/>
+        <label><input type="checkbox" name="global">koko ruoka-arkistosta</label><br/>
     </div>
     
     <label>Hakusana:</label>
     <input type='text' class='form-control' name='searchword'>
-    
+    <br/>
     <div class="form-group">
         <button type="submit" class="btn btn-success">Hae</button>
     </div>

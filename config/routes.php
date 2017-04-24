@@ -124,6 +124,10 @@ $routes->get('/haku', 'check_logged_in', function() {
     HakuController::search();
 });
 
-$routes->post('haku', 'check_logged_in', function() {
+$routes->post('/haku', 'check_logged_in', function() {
     HakuController::makeSearch();
+});
+
+$routes->get('tulokset', 'check_logged_in', function(){
+    HakuController::results();
 });

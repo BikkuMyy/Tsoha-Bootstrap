@@ -94,6 +94,19 @@ class Ruoka extends BaseModel {
         return $ruoka;
     }
     
+    public static function findBy($haku){
+        $query = DB::connection()->prepare('SELECT * FROM Ruoka '
+                                         . 'WHERE nimi LIKE '%' || :haku || '%'');
+        $query->execute(array(':haku' => $haku));
+        $rivit = $query->fetchAll();
+        $tulokset = array();
+        
+        foreach($rivit as $rivi){
+            
+        }
+    }
+
+
     /**
      * Metodi tallentaa uuden rivin tietokohdetta vastaavaan tietokantatauluun.
      */

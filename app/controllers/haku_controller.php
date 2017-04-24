@@ -14,9 +14,15 @@ class HakuController extends BaseController{
     public static function makeSearch(){
         $params = $_POST;
         
+        
+        
         //hakusanan validointi??
         
-        //redirect -> tulokset
+        //tulos-lista mukaan tähän
+        Redirect::to('/tulokset');
     }
-    //put your code here
+    
+    public static function results(){
+        View::make('haku/results.html');
+    }
 }
