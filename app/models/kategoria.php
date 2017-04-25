@@ -94,6 +94,20 @@ class Kategoria extends BaseModel {
 
         return $kategoria;
     }
+    
+    public static function searchBy($haku){
+        $query = DB::connection()->prepare('SELECT * FROM Kategoria WHERE nimi LIKE :haku ');
+        $query->execute(array('haku' => '%'.$haku.'%'));
+        $rivit = $query->fetchAll();
+        $kategoriat = array();
+
+        foreach ($rivit as $rivi) {
+            $kategoriat[] = new Kategoria(array('id' => $rivi['id'], 
+                                                'nimi' => $rivi['nimi']));
+        }
+
+        return $kategoriat;
+    }
 
     /**
      * Metodi tallentaa uuden rivin tietokohdetta vastaavaan tietokantatauluun.
@@ -150,7 +164,7 @@ class Kategoria extends BaseModel {
         }
         
         foreach ($kategoriat as $k){
-            $kategoria = self::findBy($k);
+            $kategoria = self::findBy($k->nimi);
             
             if(!in_array($kategoria, $valitut)){
                 $kategoria->poistaRuokaKategoria($ruoka_id);

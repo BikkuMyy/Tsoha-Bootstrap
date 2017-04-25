@@ -39,7 +39,6 @@ class AKController extends BaseController {
         }
         
         $aines->save();
-        
         Redirect::to('/ainekset', array('message' => 'Aines ' . $params['nimi'] . ' lisätty arkistoosi!'));
     }
     

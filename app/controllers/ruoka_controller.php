@@ -75,14 +75,21 @@ class RuokaController extends BaseController {
      */
     public static function modify($ruoka_id) {
         $ruoka = Ruoka::find($ruoka_id);
+        
         $kategoriat = self::luoValittujenLista(Kategoria::kategoriat($ruoka_id), Kategoria::all());
         $ainekset = self::luoValittujenLista(Aines::ainekset($ruoka_id), Aines::all());
 
+        // Muokkausnäkymässä ei näy aiemmin valitut kategoriat
+        // metodi luoValittujenLista vertailee nimiä, 
+        // koska lomake käsittelee valitut kategoriat ja ainekset niiden nimillä, ei olioina
+        
+        Kint::dump($kategoriat);
+        
         View::make('ruoka/modify.html', array('ruoka' => $ruoka,
             'kategoriat' => $kategoriat,
             'ainekset' => $ainekset));
     }
-
+    
     /**
      * Metodi käsittelee ruoan muokkauslomakkeen tiedot, validoi ne 
      * ja kutsuu tietokantataulun riviä muokkaavaa metodia sekä
@@ -152,7 +159,7 @@ class RuokaController extends BaseController {
      * @return array lista, jonka olioille asetettu true/false
      */
     public function luoValittujenLista($valitut, $kaikki) {
-
+        
         $valittujenLista = array();
 
         foreach ($kaikki as $k) {
@@ -178,21 +185,12 @@ class RuokaController extends BaseController {
     }
 
     /**
-     * Apumetodi, joka tarkistaa, onko parametrina annettu lista alustettu 
-     * ja palauttaa sen tai tyhjän listan.
+     * Apumetodi, joka tarkistaa, onko parametrina annettulla listalla teksti 
+     * 'Valitse...' ja palauuttaa listan, josta se on poistettu.
      * 
-     * @param type $valitut
-     * @return array patametrina saatu tai tyhjä lista
+     * @param type $lista
+     * @return array parametrina saatu lista, josta teksti mahd. poistettu
      */
-    public static function valitut($valitut) {
-        if ($valitut) {
-            
-            return $valitut;
-        } else {
-            return array();
-        }
-    }
-    
     public static function tarkista($lista){
         if ($lista[0] == 'Valitse...'){
             array_splice($lista, 0,1);
@@ -200,5 +198,12 @@ class RuokaController extends BaseController {
         }
         return $lista;
     }
+    
+//    public static function muunna($lista){
+//        $uusi = array();
+//        foreach($lista as $rivi){
+//            $uusi[] = $rivi->nimi;
+//        }
+//    }
 
 }

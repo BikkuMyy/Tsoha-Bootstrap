@@ -1,43 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
 
-
 <h2>Hakutulokset</h2>
 
-{% for tulos in tulokset %}
+{% if ruoat %}
+<div><h3>Ruokalajit:</h3>
 <ul>
-    <li>{{tulos.nimi}}</li>
+    {% for ruoka in ruoat %}
+    <li>{{ruoka.nimi}}</li>
+    <!--<a href="{{base_path}}/ruokalajit/{{ruoka.id}}">-->
+    {% endfor %}
 </ul>
-{% endfor %}
-<!--hakutulokset
-table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Nimi</th>
-           
-            <th></th>
-        </tr>
-    </thead>
+</div><br/>
+{% endif %}
 
-    <tbody>
-        {% for ruoka in ruoat %}
-        <tr>
-            <td><a href="{{base_path}}/ruokalajit/{{ruoka.id}}">{{ruoka.nimi}}</td>
+{% if kategoriat %}
+<div><h3>Kategoriat:</h3>
+<ul>
+    {% for kategoria in kategoriat %}
+    <li>{{kategoria.nimi}}</li>
+    {% endfor %}
+</ul>
+</div><br/>
+{% endif %}
 
-            <td>{{ruoka.kayttokerrat}}</td>
-            <td>{{ruoka.kommentti}}</td>
 
-            <th><a class="btn btn-default btn-sm" href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify">Muokkaa</a></th>
-        </tr>
-        {% endfor %}
+{% if ainekset %}
+<div><h3>Ainekset:</h3>
+<ul>
+    {% for aines in ainekset %}
+    <li>{{aines.nimi}}</li>
+    {% endfor %}
+</ul>
+</div><br/>
+{% endif %}
 
-    </tbody>
-</table>
-
-{% for tulos in tulokset %}
-
-{% endfor %}
-
--->
-
-{% endblok %}
+{% endblock %}

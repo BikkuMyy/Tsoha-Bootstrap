@@ -94,6 +94,20 @@ class Aines extends BaseModel {
 
         return $aines;
     }
+    
+    public static function searchBy($haku){
+        $query = DB::connection()->prepare('SELECT * FROM Aines WHERE nimi LIKE :haku');
+        $query->execute(array('haku' => '%'.$haku.'%'));
+        $rivit = $query->fetchAll();
+        $ainekset = array();
+
+        foreach ($rivit as $rivi) {
+            $ainekset[] = new Aines(array('id' => $rivi['id'],
+                'nimi' => $rivi['nimi']));
+        }
+
+        return $ainekset;
+    }
 
     /**
      * Metodi tallentaa uuden rivin tietokohdetta vastaavaan tietokantatauluun.

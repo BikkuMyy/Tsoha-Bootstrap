@@ -8,12 +8,6 @@
 {% endif %}
 
 <h1>{{ruoka.nimi}}</h1>
-<!-- Painikkeet -->
-
-<p>
-    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify" class="btn btn-default">Muokkaa</a>
-    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/delete" class="btn btn-danger">Poista</a>
-</p>
 
 <!-- Tiedot -->
 <h3>Kategoriat</h3>
@@ -36,5 +30,13 @@
     {{ruoka.kommentti}}
 </p>
 
-<p><br/><a href="{{base_path}}/ruokalajit" class="btn btn-primary">Takaisin listaukseen</a></p>
+<!-- Painikkeet näytetään, jos katseleva käyttäjä on lisännyt ruoan.
+    Muulloin käyttäjä on tullut tarkastelemaan ruokaa haun kautta.
+    'Takaisin listaukseen' -linkki tulisi silloin palauttaa hakutuloksiin?-->
+<p>
+    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify" class="btn btn-default">Muokkaa</a>
+    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/delete" class="btn btn-danger">Poista</a>
+    <br/><a href="{{base_path}}/ruokalajit" class="btn btn-primary">Takaisin listaukseen</a>
+</p>
+
 {% endblock %}
