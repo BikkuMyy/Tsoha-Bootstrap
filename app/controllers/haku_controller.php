@@ -41,12 +41,18 @@ class HakuController extends BaseController{
     
     public static function haeAineksia(){
         $params = $_POST;
-        return Aines::searchBy($params['searchword']);
+        if (isset($params['ingredient'])){
+            return Aines::searchBy($params['searchword']);
+        }
+        return array();
     }
     
     public static function haeKategorioita(){
         $params = $_POST;
-        return Kategoria::searchBy($params['searchword']);
+        if (isset($params['category'])){
+            return Kategoria::searchBy($params['searchword']);
+        }
+        return array();
     }
     
     public static function haeRuokia($user){

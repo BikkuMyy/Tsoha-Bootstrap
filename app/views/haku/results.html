@@ -5,34 +5,37 @@
 
 {% if ruoat %}
 <div><h3>Ruokalajit:</h3>
-<ul>
-    {% for ruoka in ruoat %}
-    <li>{{ruoka.nimi}}</li>
-    <!--<a href="{{base_path}}/ruokalajit/{{ruoka.id}}">-->
-    {% endfor %}
-</ul>
-</div><br/>
+    <ul>
+        {% for ruoka in ruoat %}
+        <li>{{ruoka.nimi}}</li>
+        <!--<a href="{{base_path}}/ruokalajit/{{ruoka.id}}">-->
+        {% endfor %}
+    </ul>
+</div>
 {% endif %}
 
 {% if kategoriat %}
 <div><h3>Kategoriat:</h3>
-<ul>
-    {% for kategoria in kategoriat %}
-    <li>{{kategoria.nimi}}</li>
-    {% endfor %}
-</ul>
-</div><br/>
+    <ul>
+        {% for kategoria in kategoriat %}
+        <li>{{kategoria.nimi}}</li>
+        {% endfor %}
+    </ul>
+</div>
 {% endif %}
 
 
 {% if ainekset %}
 <div><h3>Ainekset:</h3>
-<ul>
-    {% for aines in ainekset %}
-    <li>{{aines.nimi}}</li>
-    {% endfor %}
-</ul>
+    <ul>
+        {% for aines in ainekset %}
+        <li>{{aines.nimi}}</li>
+        {% endfor %}
+    </ul>
 </div><br/>
 {% endif %}
+
+<a href="{{base_path}}/haku" class="btn btn-primary">Takaisin hakuun</a>
+
 
 {% endblock %}

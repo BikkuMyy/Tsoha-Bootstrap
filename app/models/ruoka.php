@@ -99,29 +99,25 @@ class Ruoka extends BaseModel {
      * Ruoka-tietokantataulusta.
      * 
      * @param type $haku hakusana
+     * @param type $user kayttaja
      * @return array haun tulokset
      */
     public static function searchBy($haku, $user) {
         if ($user != null) {
-            $query = DB::connection()->prepare('SELECT * FROM Ruoka '
-                                             . 'WHERE nimi LIKE :haku '
-                                             . 'AND kayttaja = :kayttaja');
+            $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE kayttaja = :kayttaja '
+                                             . 'AND nimi LIKE :haku');
             $query->execute(array('haku' =>'%'.$haku.'%', 'kayttaja' => $user));
         } else {
-            $query = DB::connection()->prepare('SELECT * FROM Ruoka '
-                                             . 'WHERE nimi LIKE :haku');
+            $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE nimi LIKE :haku');
             $query->execute(array('haku' => '%'.$haku.'%'));
         }
-//        $query = DB::connection()->prepare('SELECT * FROM Ruoka '
-//                . 'WHERE nimi LIKE ' % ' || :haku || ' % '');
-//        $query->execute(array(':haku' => $haku));
+        
         $rivit = $query->fetchAll();
         $tulokset = array();
-
+        
         foreach ($rivit as $rivi) {
             $id = $rivi['id'];
-            $tulokset[] = new Ruoka(array('id' => $id,
-                            'nimi' => $rivi['nimi'],
+            $tulokset[] = new Ruoka(array('id' => $id,'nimi' => $rivi['nimi'],
                             'kayttokerrat' => $rivi['kayttokerrat'],
                             'kommentti' => $rivi['kommentti'],
                             'kayttaja' => $rivi['kayttaja'],
