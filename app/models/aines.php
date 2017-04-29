@@ -95,6 +95,12 @@ class Aines extends BaseModel {
         return $aines;
     }
     
+    /**
+     * Metodi hakee Aines-tietokantataulusta hakusanan sisältäviä rivejä.
+     * 
+     * @param type $haku hakusana
+     * @return array hakutulokset
+     */
     public static function searchBy($haku){
         $query = DB::connection()->prepare('SELECT * FROM Aines WHERE nimi LIKE :haku');
         $query->execute(array('haku' => '%'.$haku.'%'));

@@ -2,7 +2,7 @@
 {% block content %}
 
 {% if message %}
-<div class="alert alert-success">
+<div class="alert alert-primary">
     {{message}}
 </div>
 {% endif %}
@@ -28,16 +28,21 @@
 <h3>Kommentti:</h3>
 <p>
     {{ruoka.kommentti}}
-</p>
+</p><br/>
 
-<!-- Painikkeet näytetään, jos katseleva käyttäjä on lisännyt ruoan.
-    Muulloin käyttäjä on tullut tarkastelemaan ruokaa haun kautta.
-    'Takaisin listaukseen' -linkki tulisi silloin palauttaa hakutuloksiin?-->
+
 <p>
     <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify" class="btn btn-default">Muokkaa</a>
     <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/delete" class="btn btn-danger">Poista</a>
-    <br/>
+</p> 
+<p>
     <a href="{{base_path}}/ruokalajit" class="btn btn-primary">Takaisin listaukseen</a>
 </p>
+
+<p>
+<!--    <a href="{{base_path}}/tulokset" class="btn btn-primary">Takaisin hakutuloksiin</a>-->
+</p>
+
+
 
 {% endblock %}

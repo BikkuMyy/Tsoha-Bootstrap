@@ -99,14 +99,14 @@ class Ruoka extends BaseModel {
      * Ruoka-tietokantataulusta.
      * 
      * @param type $haku hakusana
-     * @param type $user kayttaja
+     * @param type $kayttaja kayttaja
      * @return array haun tulokset
      */
-    public static function searchBy($haku, $user) {
-        if ($user != null) {
+    public static function searchBy($haku, $kayttaja) {
+        if ($kayttaja != null) {
             $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE kayttaja = :kayttaja '
                                              . 'AND nimi LIKE :haku');
-            $query->execute(array('haku' =>'%'.$haku.'%', 'kayttaja' => $user));
+            $query->execute(array('kayttaja' => $kayttaja, 'haku' => '%'.$haku.'%'));
         } else {
             $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE nimi LIKE :haku');
             $query->execute(array('haku' => '%'.$haku.'%'));

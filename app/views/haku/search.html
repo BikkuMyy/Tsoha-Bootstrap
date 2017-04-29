@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
-
+{% if message %}
+<div class="alert alert-warning">
+    {{message}}
+</div>
+{% endif %}
 
 <h2>Haku Ruoka-arkistosta</h2>
 
@@ -18,7 +22,6 @@
         <br/>
         <label><input type="checkbox" name="category">kategorioista</label><br/>
         <label><input type="checkbox" name="ingredient">aineksista</label><br/>
-        
     </div>
     
     <label>Hakusana:</label>
@@ -29,5 +32,7 @@
     </div>
     
 </form>
+
+<!--haku aineksen tai kategorian perusteella-->
 
 {% endblock %}

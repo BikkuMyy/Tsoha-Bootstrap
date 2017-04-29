@@ -32,7 +32,7 @@ class BaseModel {
         $errors = array();
 
         if ($string == '' || $string == NULL) {
-            $errors[] = 'Nimi ei saa olla tyhjä!';
+            $errors[] = 'Kenttä ei saa olla tyhjä!';
         }
         if (strlen($string) < $min) {
             $errors[] = 'Pituus vähintään ' . $min . ' merkkiä';

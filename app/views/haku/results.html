@@ -5,13 +5,14 @@
 
 {% if ruoat %}
 <div><h3>Ruokalajit:</h3>
-    <ul>
-        {% for ruoka in ruoat %}
-        <li>{{ruoka.nimi}}</li>
-        <!--<a href="{{base_path}}/ruokalajit/{{ruoka.id}}">-->
-        {% endfor %}
-    </ul>
-</div>
+
+    {% for ruoka in ruoat %}
+
+    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}" class="text text-primary">{{ruoka.nimi}}</a><br/>
+
+    {% endfor %}
+
+</div><br/>
 {% endif %}
 
 {% if kategoriat %}
@@ -34,8 +35,8 @@
     </ul>
 </div><br/>
 {% endif %}
-
+<br/><p>
 <a href="{{base_path}}/haku" class="btn btn-primary">Takaisin hakuun</a>
-
+</p>
 
 {% endblock %}

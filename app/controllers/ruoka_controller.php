@@ -42,14 +42,14 @@ class RuokaController extends BaseController {
      */
     public static function store() {
         $params = $_POST;
-        $user = parent::get_user_logged_in();
-        
+        $user = $_SESSION['user'];
+
         $kategoriat = self::tarkista($params['valitutKategoriat']);
         $ainekset = self::tarkista($params['valitutAinekset']);
 
         $ruoka = new Ruoka(array('nimi' => $params ['nimi'],
             'kommentti' => $params ['kommentti'],
-            'kayttaja' => $user->id,
+            'kayttaja' => $user,
             'kategoriat' => $kategoriat,
             'ainekset' => $ainekset));
 
@@ -69,27 +69,36 @@ class RuokaController extends BaseController {
     }
 
     /**
-     * Metodi näyttää parametrina saamansa ruoan muokkaussivun.
+     * Metodi näyttää parametrina saamansa ruoan muokkaussivun, 
+     * jos kirjatunut käyttäjä on myös ruoan lisääjä.
      * 
      * @param type $ruoka_id
      */
     public static function modify($ruoka_id) {
         $ruoka = Ruoka::find($ruoka_id);
-        
-        $kategoriat = self::luoValittujenLista(Kategoria::kategoriat($ruoka_id), Kategoria::all());
-        $ainekset = self::luoValittujenLista(Aines::ainekset($ruoka_id), Aines::all());
+        $kayttaja = $_SESSION['user'];
 
-        // Muokkausnäkymässä ei näy aiemmin valitut kategoriat
-        // metodi luoValittujenLista vertailee nimiä, 
-        // koska lomake käsittelee valitut kategoriat ja ainekset niiden nimillä, ei olioina
-        
-        Kint::dump($kategoriat);
-        
+        if ($kayttaja != $ruoka->kayttaja) {
+            Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => "Voit muokata vain itse lisäämiesi ruokalajien tietoja."));
+        }
+
+        $valitutAinekset = Aines::ainekset($ruoka_id);
+        $valitutKategoriat = Kategoria::kategoriat($ruoka_id);
+
+        Kint::dump($valitutAinekset);
+
+        $kategoriat = self::luoValittujenLista($valitutKategoriat, Kategoria::all());
+        $ainekset = self::luoValittujenLista($valitutAinekset, Aines::all());
+
+        Kint::dump($ainekset);
+
         View::make('ruoka/modify.html', array('ruoka' => $ruoka,
             'kategoriat' => $kategoriat,
-            'ainekset' => $ainekset));
+            'ainekset' => $ainekset,
+            'valitutKategoriat' => $valitutKategoriat,
+            'valitutAinekset' => $valitutAinekset));
     }
-    
+
     /**
      * Metodi käsittelee ruoan muokkauslomakkeen tiedot, validoi ne 
      * ja kutsuu tietokantataulun riviä muokkaavaa metodia sekä
@@ -127,11 +136,19 @@ class RuokaController extends BaseController {
     }
 
     /**
-     * Metodi näyttää ruokalajin poistonäkymän.
+     * Metodi näyttää ruokalajin poistonäkymän,
+     * jos kirjautunut käyttäjä on ruokalajin lisääjä.
      * @param type $id
      */
     public static function delete($id) {
         $ruoka = Ruoka::find($id);
+        $kayttaja = $_SESSION['user'];
+
+        if ($kayttaja != $ruoka->kayttaja) {
+            Redirect::to('/ruokalajit/' . $ruoka->id, array('message' => "Voit poistaa vain itse lisäämiäsi ruokia."));
+        }
+
+
         View::make('ruoka/remove.html', array('ruoka' => $ruoka));
     }
 
@@ -149,8 +166,7 @@ class RuokaController extends BaseController {
     }
 
     /**
-     * Apumetodi, joka vertailee parametreina saamiaan listoja 
-     * ja luo vertailun perusteella listan, 
+     * Apumetodi, joka vertailee parametreina saamiaan listoja  ja luo sen perusteella listan, 
      * jossa  ainesten/kategorioiden boolean-muuttuja on true,
      * jos ne löytyvät molemmista listoista ja false jos eivät.
      * 
@@ -159,51 +175,43 @@ class RuokaController extends BaseController {
      * @return array lista, jonka olioille asetettu true/false
      */
     public function luoValittujenLista($valitut, $kaikki) {
-        
+
         $valittujenLista = array();
 
         foreach ($kaikki as $k) {
-
-            if (empty($valitut)) {
-                $k->valittu = false;
-                $valittujenLista[] = $k;
-                continue;
-            }
-
+            $k->valittu = false;
+            
             foreach ($valitut as $v) {
 
-                if ($k->nimi == $v) {
+                if ($k->nimi == $v || $k->id == $v->id) {
                     $k->valittu = true;
-                    $valittujenLista[] = $k;
-                } else {
-                    $k->valittu = false;
-                    $valittujenLista[] = $k;
                 }
             }
+            
+            $valittujenLista[] = $k;
         }
         return $valittujenLista;
     }
 
     /**
-     * Apumetodi, joka tarkistaa, onko parametrina annettulla listalla teksti 
-     * 'Valitse...' ja palauuttaa listan, josta se on poistettu.
+     * Apumetodi, joka tarkistaa, onko parametrina annetulla listalla teksti 
+     * 'Valitse...' ja palauttaa listan, josta se on poistettu.
      * 
      * @param type $lista
      * @return array parametrina saatu lista, josta teksti mahd. poistettu
      */
-    public static function tarkista($lista){
-        if ($lista[0] == 'Valitse...'){
-            array_splice($lista, 0,1);
+    public static function tarkista($lista) {
+        if ($lista[0] == 'Valitse...') {
+            array_splice($lista, 0, 1);
             return $lista;
         }
         return $lista;
     }
-    
+
 //    public static function muunna($lista){
 //        $uusi = array();
 //        foreach($lista as $rivi){
 //            $uusi[] = $rivi->nimi;
 //        }
 //    }
-
 }

@@ -95,6 +95,12 @@ class Kategoria extends BaseModel {
         return $kategoria;
     }
     
+    /**
+     * Metodi hakee Kategoria-tietokantataulusta hakusanan sisältäviä rivejä.
+     * 
+     * @param type $haku hakusana
+     * @return array hakutulokset
+     */
     public static function searchBy($haku){
         $query = DB::connection()->prepare('SELECT * FROM Kategoria WHERE nimi LIKE :haku ');
         $query->execute(array('haku' => '%'.$haku.'%'));

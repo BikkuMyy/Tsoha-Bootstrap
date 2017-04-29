@@ -10,6 +10,11 @@
 
     <div class="form-group">
         <h3>Kategoriat</h3>
+        <ul>
+            {% for valittu in valitutKategoriat %}
+            <li>{{valittu.nimi}}</li>
+            {% endfor %}
+        </ul>
         <label for="sel1">Valitse useampi pitämällä CTRL-näppäintä pohjassa</label>
 
         <select name="valitutKategoriat[]" multiple class="form-control" id="sel1">
@@ -29,8 +34,14 @@
 
     <div class="form-group">
         <h3>Pääraaka-aineet</h3>
-        <label for="sel2">Valitse useampi pitämällä CTRL-näppäintä pohjassa</label>
         
+        <ul>{% for valittu in valitutAinekset %}
+            <li>{{valittu.nimi}}</li>
+            {% endfor %}
+        </ul>
+
+        <label for="sel2">Valitse useampi pitämällä CTRL-näppäintä pohjassa</label>
+
         <select name = "valitutAinekset[]" multiple class="form-control" id="sel2">
             <option selected>Valitse...</option>
             {% for aines in ainekset %}

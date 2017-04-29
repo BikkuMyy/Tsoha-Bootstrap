@@ -13,21 +13,18 @@ class HakuController extends BaseController{
     
     public static function makeSearch(){
         $params = $_POST;
-        $user = $_SESSION['user'];
+        $kayttaja = $_SESSION['user'];
         
         //hakusanan validointi??
         
-        $kaikki = array();
-        $ruoat = self::haeRuokia($user);
+        $ruoat = self::haeRuokia($kayttaja);
         $ainekset = self::haeAineksia();
         $kategoriat = self::haeKategorioita();
-        if(isset($params['global'])){
-            
-        }  
-     
-        //jokaiselle haulle oma apumetodi
         
-        //tulos-lista mukaan tähän
+        if(empty($ruoat) && empty($ainekset) && empty($kategoriat)){
+            View::make('haku/search.html', array('message' => 'Ei tuloksia annetuilla hakukriteereillä'));
+        }
+        
         Redirect::to('/tulokset', array('ruoat' => $ruoat, 
                                         'ainekset' => $ainekset,
                                         'kategoriat' => $kategoriat));
@@ -55,7 +52,7 @@ class HakuController extends BaseController{
         return array();
     }
     
-    public static function haeRuokia($user){
+    public static function haeRuokia($kayttaja){
         $params = $_POST;
         $ruoat = array();
         if(isset($params['all'])){
@@ -63,7 +60,7 @@ class HakuController extends BaseController{
             $ruoat = array_merge($ruoat, $tulokset);
         }
         if(isset($params['own'])){
-            $tulokset = Ruoka::searchBy($params['searchword'], $user);
+            $tulokset = Ruoka::searchBy($params['searchword'], $kayttaja);
             $ruoat = array_merge($ruoat, $tulokset);
         }
         return $ruoat;
