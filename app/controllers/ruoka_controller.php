@@ -183,7 +183,7 @@ class RuokaController extends BaseController {
             
             foreach ($valitut as $v) {
 
-                if ($k->nimi == $v || $k->id == $v->id) {
+                if ($k->nimi == $v || $k == $v) {
                     $k->valittu = true;
                 }
             }
