@@ -106,10 +106,10 @@ class Ruoka extends BaseModel {
         if ($kayttaja != null) {
             $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE kayttaja = :kayttaja '
                                              . 'AND nimi LIKE :haku');
-            $query->execute(array('kayttaja' => $kayttaja, 'haku' => '%'.$haku.'%'));
+            $query->execute(array('kayttaja' => $kayttaja, 'haku' => '%' . $haku . '%'));
         } else {
             $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE nimi LIKE :haku');
-            $query->execute(array('haku' => '%'.$haku.'%'));
+            $query->execute(array('haku' => '%' . $haku . '%'));
         }
         
         $rivit = $query->fetchAll();
@@ -118,7 +118,6 @@ class Ruoka extends BaseModel {
         foreach ($rivit as $rivi) {
             $id = $rivi['id'];
             $tulokset[] = new Ruoka(array('id' => $id,'nimi' => $rivi['nimi'],
-                            'kayttokerrat' => $rivi['kayttokerrat'],
                             'kommentti' => $rivi['kommentti'],
                             'kayttaja' => $rivi['kayttaja'],
                             'kategoriat' => Kategoria::kategoriat($id),
@@ -127,7 +126,19 @@ class Ruoka extends BaseModel {
         }
         return $tulokset;
     }
-
+    
+    public static function seachByCategory($id){
+        //haetaan kaikki ruoat, joilla on tietty kategoria
+        //vaatii varmaan liitostaulun...
+//        $query=DB::connection()->prepare('SELECT * FROM Ruoka WHERE ')
+    }
+    
+    public static function seachByIngredient($id){
+        //haetaan kaikki ruoat, joilla on tietty aines
+        //vaatii varmaan liitostaulun...
+    }
+    
+    
     /**
      * Metodi tallentaa uuden rivin tietokohdetta vastaavaan tietokantatauluun.
      */

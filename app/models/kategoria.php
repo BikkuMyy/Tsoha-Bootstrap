@@ -8,8 +8,7 @@
 class Kategoria extends BaseModel {
 
     public $id, $nimi, $valittu;
-    
-    
+
     /**
      * Konstruktori, joka kutsuu BaseModel-yliluokan construct-metodia
      * ja määrittää luokan validaatiometodien nimet.
@@ -20,16 +19,15 @@ class Kategoria extends BaseModel {
         parent::__construct($attributes);
         $this->validators = array('validate_nimi');
     }
-    
+
     /**
      * Metodi kutsuu BaseModel-yliluokan validointimetodia 
      * ja palauttaa mahdolliset virheet.
      * 
      * @return array validoinnissa huomatut virheet
      */
-    public function validate_nimi(){
+    public function validate_nimi() {
         return parent::validate_string_length($this->nimi, 3, 20);
-        
     }
 
     /**
@@ -45,8 +43,8 @@ class Kategoria extends BaseModel {
         $kategoriat = array();
 
         foreach ($rivit as $rivi) {
-            $kategoriat[] = new Kategoria(array('id' => $rivi['id'], 
-                                                'nimi' => $rivi['nimi']));
+            $kategoriat[] = new Kategoria(array('id' => $rivi['id'],
+                'nimi' => $rivi['nimi']));
         }
 
         return $kategoriat;
@@ -61,17 +59,18 @@ class Kategoria extends BaseModel {
      */
     public static function find($id) {
         $query = DB::connection()->prepare('SELECT nimi FROM Kategoria '
-                                         . 'WHERE id = :id LIMIT 1');
+                . 'WHERE id = :id LIMIT 1');
         $query->execute(array('id' => $id));
         $rivi = $query->fetch();
 
         if ($rivi) {
             $kategoria = new Kategoria(array('id' => $id,
-                                             'nimi' => $rivi['nimi']));
+                'nimi' => $rivi['nimi']));
         }
 
         return $kategoria;
     }
+
     /**
      * Metodi hakee tietokohdetta vastaavasta tietokantataulusta rivin
      * parametrina annetun nimen perusteella.
@@ -81,8 +80,8 @@ class Kategoria extends BaseModel {
      */
     public static function findBy($nimi) {
         $query = DB::connection()->prepare('SELECT * FROM Kategoria '
-                                         . 'WHERE nimi = :nimi LIMIT 1');
-        
+                . 'WHERE nimi = :nimi LIMIT 1');
+
         $query->execute(array('nimi' => $nimi));
         $rivi = $query->fetch();
 
@@ -94,22 +93,22 @@ class Kategoria extends BaseModel {
 
         return $kategoria;
     }
-    
+
     /**
      * Metodi hakee Kategoria-tietokantataulusta hakusanan sisältäviä rivejä.
      * 
      * @param type $haku hakusana
      * @return array hakutulokset
      */
-    public static function searchBy($haku){
+    public static function searchBy($haku) {
         $query = DB::connection()->prepare('SELECT * FROM Kategoria WHERE nimi LIKE :haku ');
-        $query->execute(array('haku' => '%'.$haku.'%'));
+        $query->execute(array('haku' => '%' . $haku . '%'));
         $rivit = $query->fetchAll();
         $kategoriat = array();
 
         foreach ($rivit as $rivi) {
-            $kategoriat[] = new Kategoria(array('id' => $rivi['id'], 
-                                                'nimi' => $rivi['nimi']));
+            $kategoriat[] = new Kategoria(array('id' => $rivi['id'],
+                'nimi' => $rivi['nimi']));
         }
 
         return $kategoriat;
@@ -120,7 +119,7 @@ class Kategoria extends BaseModel {
      */
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Kategoria (nimi) '
-                                         . 'VALUES (:nimi) RETURNING id');
+                . 'VALUES (:nimi) RETURNING id');
 
         $query->execute(array('nimi' => $this->nimi));
         $rivi = $query->fetch();
@@ -136,7 +135,7 @@ class Kategoria extends BaseModel {
      */
     public static function kategoriat($ruoka_id) {
         $query = DB::connection()->prepare('SELECT kategoria FROM RuokaKategoria '
-                                            . 'WHERE ruoka = :id');
+                . 'WHERE ruoka = :id');
 
         $query->execute(array('id' => $ruoka_id));
 
@@ -158,21 +157,21 @@ class Kategoria extends BaseModel {
      * @param type $valitut lista kategorioita
      * @param type $ruoka_id
      */
-    public static function paivitaKategoriat($valitut, $ruoka_id) {
+    public function paivitaKategoriat($valitut, $ruoka_id) {
         $kategoriat = self::kategoriat($ruoka_id);
-        
+
         foreach ($valitut as $v) {
             $valittu = self::findBy($v);
-            
-            if(!in_array($valittu, $kategoriat)){
+
+            if (!in_array($valittu, $kategoriat)) {
                 $valittu->lisaaRuokaKategoria($ruoka_id);
             }
         }
-        
-        foreach ($kategoriat as $k){
+
+        foreach ($kategoriat as $k) {
             $kategoria = self::findBy($k->nimi);
-            
-            if(!in_array($kategoria, $valitut)){
+
+            if (!in_array($k->nimi, $valitut)) {
                 $kategoria->poistaRuokaKategoria($ruoka_id);
             }
         }
@@ -187,9 +186,9 @@ class Kategoria extends BaseModel {
     public function lisaaRuokaKategoria($ruoka_id) {
         $query = DB::connection()->prepare('INSERT INTO RuokaKategoria VALUES '
                 . '(:ruoka, :kategoria)');
-        
+
         $query->execute(array('ruoka' => $ruoka_id,
-                              'kategoria' => $this->id));
+            'kategoria' => $this->id));
     }
 
     /**
@@ -198,13 +197,13 @@ class Kategoria extends BaseModel {
      * 
      * @param type $ruoka_id
      */
-    public function poistaRuokaKategoria($ruoka_id){
+    public function poistaRuokaKategoria($ruoka_id) {
         $query = DB::connection()->prepare('DELETE FROM RuokaKategoria '
-                                         . 'WHERE kategoria = :kategoria '
-                                         . 'AND ruoka = :ruoka');
-        
-        $query->execute(array('ruoka' => $ruoka_id, 
-                              'kategoria' => $this->id));
+                . 'WHERE kategoria = :kategoria '
+                . 'AND ruoka = :ruoka');
+
+        $query->execute(array('ruoka' => $ruoka_id,
+            'kategoria' => $this->id));
     }
 
 }

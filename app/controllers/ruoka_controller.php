@@ -85,12 +85,8 @@ class RuokaController extends BaseController {
         $valitutAinekset = Aines::ainekset($ruoka_id);
         $valitutKategoriat = Kategoria::kategoriat($ruoka_id);
 
-        Kint::dump($valitutAinekset);
-
         $kategoriat = self::luoValittujenLista($valitutKategoriat, Kategoria::all());
         $ainekset = self::luoValittujenLista($valitutAinekset, Aines::all());
-
-        Kint::dump($ainekset);
 
         View::make('ruoka/modify.html', array('ruoka' => $ruoka,
             'kategoriat' => $kategoriat,
@@ -109,7 +105,7 @@ class RuokaController extends BaseController {
     public function update($id) {
         $params = $_POST;
         $user = parent::get_user_logged_in();
-
+        
         $kategoriat = self::tarkista($params['valitutKategoriat']);
         $ainekset = self::tarkista($params['valitutAinekset']);
 

@@ -7,17 +7,16 @@
 </div>
 {% endif %}
 
-<h2>Haku Ruoka-arkistosta</h2>
+<h2>Haku</h2>
 
 <form method="post" action ="{{base_path}}/haku">
     
-    <h3>Hae...</h3>
+    <h3>Hae hakusanalla</h3>
     <div class="checkbox">
-        <h4>(Valitse vähintään yksi vaihtoehto)</h4><br/>
+        <h4>Valitse vähintään yksi vaihtoehto</h4><br/>
 <!--        <label><input type="checkbox" name="global">koko ruoka-arkistosta</label><br/>
-        <label>TAI</label><br/>-->
-        <label><input type="checkbox" name="own">vain oman arkiston ruokalajeista</label><br/>
-        <label>TAI</label><br/>
+        <!--<label>TAI</label><br/>-->
+        <label><input type="checkbox" name="own">oman arkiston ruokalajeista</label><br/>
         <label><input type="checkbox" name="all">kaikkien käyttäjien lisäämistä ruokalajeista</label><br/>
         <br/>
         <label><input type="checkbox" name="category">kategorioista</label><br/>
@@ -31,8 +30,39 @@
         <button type="submit" class="btn btn-success">Hae</button>
     </div>
     
+</form><br/>
+
+<form method="post" action ="{{base_path}}/haku">
+    <h3>Hae aineksen tai kategorian perusteella</h3>
+    
+    <div class="form-group">
+        <label>Valitse aines</label>
+        <select class="form-control" name="aines">
+            <option>Valitse...</option>
+            {% for aines in ainekset %}
+            <option value="{{aines.id}}">{{aines.nimi}}</option>
+            {% endfor %}
+        </select>
+    </div>
+   
+    <label>TAI</label>
+    <br/>
+
+    <div class="form-group">
+        <label>Valitse kategoria</label>
+        <select class="form-control" name="kategoria">
+            <option>Valitse...</option>
+            {% for kategoria in kategoriat %}
+            <option value="{{kategoria.id}}">{{kategoria.nimi}}</option>
+            {% endfor %}
+        </select>
+    </div>   
+    <br/>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Hae</button>
+    </div>
 </form>
 
-<!--haku aineksen tai kategorian perusteella-->
+
 
 {% endblock %}

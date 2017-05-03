@@ -157,7 +157,7 @@ class Aines extends BaseModel {
      * @param array $valitut lista aineksia
      * @param type $ruoka_id
      */
-    public static function paivitaAinekset($valitut, $ruoka_id) {
+    public function paivitaAinekset($valitut, $ruoka_id) {
         $ainekset = self::ainekset($ruoka_id);
 
         foreach ($valitut as $v) {
@@ -169,9 +169,9 @@ class Aines extends BaseModel {
         }
 
         foreach ($ainekset as $a) {
-            $aines = self::findBy($a);
+            $aines = self::findBy($a->nimi);
 
-            if (!in_array($aines, $valitut)) {
+            if (!in_array($a->nimi, $valitut)) {
                 $aines->poistaRuokaAines($ruoka_id);
             }
         }

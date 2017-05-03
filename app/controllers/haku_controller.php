@@ -8,14 +8,33 @@
 class HakuController extends BaseController{
     
     public static function search(){
-        View::make('haku/search.html');
+        $ainekset = Aines::all();
+        $kategoriat = Kategoria::all();
+        
+        View::make('haku/search.html', array('ainekset' => $ainekset, 'kategoriat' => $kategoriat));
     }
     
     public static function makeSearch(){
         $params = $_POST;
-        $kayttaja = $_SESSION['user'];
         
+        if(isset($params['searchword'])){
+            self::hakusanaHaku();
+        } 
+        
+        if (isset($params['aines'])){
+            
+        }
         //hakusanan validointi??
+        
+        
+    }
+    
+    public static function results(){
+        View::make('haku/results.html');
+    }
+    
+    public static function hakusanaHaku(){
+        $kayttaja = $_SESSION['user'];
         
         $ruoat = self::haeRuokia($kayttaja);
         $ainekset = self::haeAineksia();
@@ -29,12 +48,6 @@ class HakuController extends BaseController{
                                         'ainekset' => $ainekset,
                                         'kategoriat' => $kategoriat));
     }
-    
-    public static function results(){
-        View::make('haku/results.html');
-    }
-    
-    
     
     public static function haeAineksia(){
         $params = $_POST;
