@@ -11,7 +11,7 @@ CREATE TABLE Ruoka
 id SERIAL PRIMARY KEY,
 nimi varchar(25) NOT NULL,
 kayttokerrat integer,
-kommentti text,
+kommentti varchar(500),
 kayttaja integer NOT NULL,
 FOREIGN KEY (kayttaja) REFERENCES Kayttaja (id)
 );

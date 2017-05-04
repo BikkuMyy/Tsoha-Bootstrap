@@ -15,15 +15,15 @@ class Ruoka extends BaseModel {
      * Konstruktori, joka kutsuu BaseModel-yliluokan construct-metodia
      * ja määrittää luokanvalidaatiometodien nimet.
      * 
-     * @param type $attributes luokan attribuutit
+     * @param array $attributes luokan attribuutit
      */
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_nimi');
+        $this->validators = array('validate_nimi', 'validate_kommentti');
     }
 
     /**
-     * Metodi kutsuu BaseModel-yliluokan validointimetodia 
+     * Metodi kutsuu BaseModel-yliluokan merkkijonon pituuden validointimetodia 
      * ja palauttaa mahdolliset virheet.
      * 
      * @return array validoinnissa huomatut virheet
@@ -32,16 +32,21 @@ class Ruoka extends BaseModel {
         return parent::validate_string_length($this->nimi, 3, 25);
     }
 
-    //tarviiko kommentti validoinnin?
-//    public function validate_kommentti(){
-//        return parent::validate_string_length($this->kommentti, $min, $max);
-//    }
+    /**
+     Metodi kutsuu BaseModel-yliluokan merkkijonon pituuden validointimetodia 
+     * ja palauttaa mahdolliset virheet.
+     * 
+     * @return array validoinnissa huomatut virheet
+     */
+    public function validate_kommentti(){
+        return parent::validate_string_length($this->kommentti, 0, 500);
+    }
 
     /**
      * Metodi hakee tietokohdetta vastaavasta tietokantataulusta kaikki rivit,
      * joiden kayttaja-viiteavain vastaa parametrina annettua avainta.
      * 
-     * @param type $kayttaja_id
+     * @param integer $kayttaja_id
      * @return array löydetyt rivit
      */
     public static function all($kayttaja_id) {
@@ -53,14 +58,7 @@ class Ruoka extends BaseModel {
         $ruoat = array();
 
         foreach ($rivit as $rivi) {
-            $ruoka_id = $rivi['id'];
-            $ruoat[] = new Ruoka(array('id' => $ruoka_id,
-                'nimi' => $rivi['nimi'],
-                'kayttokerrat' => $rivi['kayttokerrat'],
-                'kommentti' => $rivi['kommentti'],
-                'kayttaja' => $rivi['kayttaja'],
-                'kategoriat' => Kategoria::kategoriat($ruoka_id),
-                'ainekset' => Aines::ainekset($ruoka_id)));
+            $ruoat[] = self::uusiRuoka($rivi);
         }
 
         return $ruoat;
@@ -70,7 +68,7 @@ class Ruoka extends BaseModel {
      * Metodi hakee tietokohdetta vastaavasta tietokantataulusta rivin 
      * parametrina annetun id:n perusteella.
      * 
-     * @param type $id
+     * @param integer $id
      * @return Ruoka
      */
     public static function find($id) {
@@ -80,17 +78,9 @@ class Ruoka extends BaseModel {
         $rivi = $query->fetch();
 
         if ($rivi) {
-            $ruoka = new Ruoka(array(
-                'id' => $rivi['id'],
-                'nimi' => $rivi['nimi'],
-                'kayttokerrat' => $rivi['kayttokerrat'],
-                'kommentti' => $rivi['kommentti'],
-                'kayttaja' => $rivi['kayttaja'],
-                'kategoriat' => Kategoria::kategoriat($id),
-                'ainekset' => Aines::ainekset($id)
-            ));
+            $ruoka = self::uusiRuoka($rivi);
         }
-
+        //entä jos ei löytyisi??
         return $ruoka;
     }
 
@@ -98,47 +88,69 @@ class Ruoka extends BaseModel {
      * Metodi hakee parametrina saamansa hakusanan sisältäviä rivejä
      * Ruoka-tietokantataulusta.
      * 
-     * @param type $haku hakusana
-     * @param type $kayttaja kayttaja
+     * @param string $haku hakusana
+     * @param integer $kayttaja kayttaja
      * @return array haun tulokset
      */
-    public static function searchBy($haku, $kayttaja) {
-        if ($kayttaja != null) {
-            $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE kayttaja = :kayttaja '
-                                             . 'AND nimi LIKE :haku');
-            $query->execute(array('kayttaja' => $kayttaja, 'haku' => '%' . $haku . '%'));
-        } else {
-            $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE nimi LIKE :haku');
-            $query->execute(array('haku' => '%' . $haku . '%'));
-        }
-        
+    public static function searchBy($haku) {
+//        if ($kayttaja != null) {
+//            $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE kayttaja = :kayttaja '
+//                                                . 'AND nimi LIKE :haku');
+//            $query->execute(array('kayttaja' => $kayttaja, 'haku' => '%' . $haku . '%'));
+//        } 
+        $query = DB::connection()->prepare('SELECT * FROM Ruoka WHERE nimi LIKE :haku');
+        $query->execute(array('haku' => '%' . $haku . '%'));
+
+
         $rivit = $query->fetchAll();
         $tulokset = array();
-        
+
         foreach ($rivit as $rivi) {
-            $id = $rivi['id'];
-            $tulokset[] = new Ruoka(array('id' => $id,'nimi' => $rivi['nimi'],
-                            'kommentti' => $rivi['kommentti'],
-                            'kayttaja' => $rivi['kayttaja'],
-                            'kategoriat' => Kategoria::kategoriat($id),
-                            'ainekset' => Aines::ainekset($id)
-            ));
+            $tulokset[] = self::uusiRuoka($rivi);
         }
+        
         return $tulokset;
     }
-    
-    public static function seachByCategory($id){
+
+    public static function seachByCategory($id) {
         //haetaan kaikki ruoat, joilla on tietty kategoria
-        //vaatii varmaan liitostaulun...
-//        $query=DB::connection()->prepare('SELECT * FROM Ruoka WHERE ')
+
+        $query = DB::connection()->prepare('SELECT r.id, r.nimi, r.kommentti, r.kayttaja FROM Ruoka r '
+                . 'JOIN RuokaKategoria rk '
+                . 'ON r.id = rk.ruoka '
+                . 'JOIN Kategoria k ON k.id = rk.kategoria '
+                . 'WHERE k.id = :id');
+        $query->execute(array('id' => $id));
+        $rivit = $query->fetchAll();
+
+        $ruoat = array();
+        foreach ($rivit as $rivi) {
+            $ruoat[] = self::uusiRuoka($rivi);
+
+        }
+
+        return $ruoat;
     }
-    
-    public static function seachByIngredient($id){
+
+    public static function seachByIngredient($id) {
         //haetaan kaikki ruoat, joilla on tietty aines
-        //vaatii varmaan liitostaulun...
+        $query = DB::connection()->prepare('SELECT r.id, r.nimi, r.kommentti, r.kayttaja FROM Ruoka r '
+                . 'JOIN RuokaAines ra '
+                . 'ON r.id = ra.ruoka '
+                . 'JOIN Aines a ON a.id = ra.aines '
+                . 'WHERE a.id = :id');
+        $query->execute(array('id' => $id));
+        $rivit = $query->fetchAll();
+
+        $ruoat = array();
+        foreach ($rivit as $rivi) {
+            $ruoat[] = self::uusiRuoka($rivi);
+
+        }
+
+        return $ruoat;
     }
-    
-    
+
     /**
      * Metodi tallentaa uuden rivin tietokohdetta vastaavaan tietokantatauluun.
      */
@@ -214,6 +226,20 @@ class Ruoka extends BaseModel {
             $aines = Aines::findBy($a);
             $aines->lisaaRuokaAines($this->id);
         }
+    }
+
+    public static function uusiRuoka($rivi) {
+        $id = $rivi['id'];
+        $ruoka = new Ruoka(array(
+            'id' => $id,
+            'nimi' => $rivi['nimi'],
+            'kommentti' => $rivi['kommentti'],
+            'kayttaja' => $rivi['kayttaja'],
+            'kategoriat' => Kategoria::kategoriat($id),
+            'ainekset' => Aines::ainekset($id)
+        ));
+
+        return $ruoka;
     }
 
 }

@@ -204,10 +204,4 @@ class RuokaController extends BaseController {
         return $lista;
     }
 
-//    public static function muunna($lista){
-//        $uusi = array();
-//        foreach($lista as $rivi){
-//            $uusi[] = $rivi->nimi;
-//        }
-//    }
 }
