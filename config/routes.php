@@ -10,10 +10,6 @@ $routes->get('/', function() {
     ArkistoController::index();
 });
 
-$routes->get('/sandbox', function() {
-    HelloWorldController::sandbox();
-});
-
 $routes->get('/login', function() {
     ArkistoController::login();
 });

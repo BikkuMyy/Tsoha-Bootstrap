@@ -7,12 +7,7 @@
 </div>
 {% endif %}
 
-<!--käyttäjän etusivu-->
 <h1>Käyttäjän {{user_logged_in.kayttajatunnus}} ruoka-arkisto</h1>
-
-<p><br/>
-    <a class="btn btn-primary" href="{{base_path}}/haku">Haku</a>
-</p>
 
 <p><br/>
     <a class="btn btn-primary" href="{{base_path}}/ruokalajit">Kaikki ruokalajit</a>
@@ -21,13 +16,17 @@
 
 <p><br/>
     <a class="btn btn-primary" href="{{base_path}}/kategoriat">Kaikki kategoriat</a>
+    <a class="btn btn-success" href="{{base_path}}/kategoria">Lisää kategoria</a>
 </p>
 
 <p><br/>
     <a class="btn btn-primary" href="{{base_path}}/ainekset">Kaikki ainekset</a>
+    <a class="btn btn-success" href="{{base_path}}/aines">Lisää aines</a>
 </p>
 
-<!--hakutoiminto-->
+<p><br/>
+    <a class="btn btn-default" href="{{base_path}}/haku">Haku</a>
+</p>
 
 <p><br/>
     <a href="{{base_path}}/settings" class="btn btn-default">Asetukset</a>

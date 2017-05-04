@@ -30,15 +30,14 @@
 
             <td>{{ruoka.kommentti}}</td>
 
-            <th><a class="btn btn-default btn-sm" href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify">Muokkaa</a></th>
+            <td>
+                <a class="btn btn-default" href="{{base_path}}/ruokalajit/{{ruoka.id}}/modify">Muokkaa</a>
+                <a href="{{base_path}}/ruokalajit/{{ruoka.id}}/delete" class="btn btn-danger btn-sm">Poista</a>
+            </td>
         </tr>
         {% endfor %}
 
     </tbody>
 </table>
 
-<!--<p><br/>
-    <a class="btn btn-primary" href="{{base_path}}/kategoriat">Kaikki kategoriat</a><br/>
-    <a class="btn btn-primary" href="{{base_path}}/ainekset">Kaikki ainekset</a>
-</p>-->
 {% endblock %}

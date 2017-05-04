@@ -2,13 +2,14 @@
 {% block content %}
 
 <h2>Hakutulokset</h2>
+<br/>
 
 {% if ruoat %}
-<div><h3>Ruokalajit:</h3>
-
+<h3>Ruokalajit:</h3><br/>
+<div class="list-group">
     {% for ruoka in ruoat %}
 
-    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}" class="text text-primary">{{ruoka.nimi}}</a><br/>
+    <a href="{{base_path}}/ruokalajit/{{ruoka.id}}" class="list list-group-item">{{ruoka.nimi}}</a>
 
     {% endfor %}
 

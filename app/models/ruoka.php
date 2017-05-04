@@ -33,12 +33,12 @@ class Ruoka extends BaseModel {
     }
 
     /**
-     Metodi kutsuu BaseModel-yliluokan merkkijonon pituuden validointimetodia 
+      Metodi kutsuu BaseModel-yliluokan merkkijonon pituuden validointimetodia
      * ja palauttaa mahdolliset virheet.
      * 
      * @return array validoinnissa huomatut virheet
      */
-    public function validate_kommentti(){
+    public function validate_kommentti() {
         return parent::validate_string_length($this->kommentti, 0, 500);
     }
 
@@ -80,7 +80,7 @@ class Ruoka extends BaseModel {
         if ($rivi) {
             $ruoka = self::uusiRuoka($rivi);
         }
-        //entä jos ei löytyisi??
+
         return $ruoka;
     }
 
@@ -108,13 +108,17 @@ class Ruoka extends BaseModel {
         foreach ($rivit as $rivi) {
             $tulokset[] = self::uusiRuoka($rivi);
         }
-        
+
         return $tulokset;
     }
 
+    /**
+     * Metodi hakee tietokannasta kaikki ruoat, jotka on liitetty tiettyyn kategoriaan.
+     * 
+     * @param integer $id kategorian id
+     * @return array löydetyt ruoat
+     */
     public static function seachByCategory($id) {
-        //haetaan kaikki ruoat, joilla on tietty kategoria
-
         $query = DB::connection()->prepare('SELECT r.id, r.nimi, r.kommentti, r.kayttaja FROM Ruoka r '
                 . 'JOIN RuokaKategoria rk '
                 . 'ON r.id = rk.ruoka '
@@ -126,14 +130,18 @@ class Ruoka extends BaseModel {
         $ruoat = array();
         foreach ($rivit as $rivi) {
             $ruoat[] = self::uusiRuoka($rivi);
-
         }
 
         return $ruoat;
     }
 
+    /**
+     *  Metodi hakee tietokannasta kaikki ruoat, joihin on liitetty tietty aines.
+     * 
+     * @param integer $id aineksen id
+     * @return array löydetyt ruoat
+     */
     public static function seachByIngredient($id) {
-        //haetaan kaikki ruoat, joilla on tietty aines
         $query = DB::connection()->prepare('SELECT r.id, r.nimi, r.kommentti, r.kayttaja FROM Ruoka r '
                 . 'JOIN RuokaAines ra '
                 . 'ON r.id = ra.ruoka '
@@ -145,7 +153,6 @@ class Ruoka extends BaseModel {
         $ruoat = array();
         foreach ($rivit as $rivi) {
             $ruoat[] = self::uusiRuoka($rivi);
-
         }
 
         return $ruoat;
@@ -228,6 +235,13 @@ class Ruoka extends BaseModel {
         }
     }
 
+    /**
+     * Apumetodi, joka luo ja palauttaa uuden Ruoka-olion 
+     * parametrina saamiensa tietojen perusteella.
+     * 
+     * @param array $rivi tietokantakyselystä saatu rivi
+     * @return Ruoka uusi Ruoka-olio
+     */
     public static function uusiRuoka($rivi) {
         $id = $rivi['id'];
         $ruoka = new Ruoka(array(

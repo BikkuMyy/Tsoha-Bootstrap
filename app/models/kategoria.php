@@ -13,7 +13,7 @@ class Kategoria extends BaseModel {
      * Konstruktori, joka kutsuu BaseModel-yliluokan construct-metodia
      * ja määrittää luokan validaatiometodien nimet.
      * 
-     * @param type $attributes luokan attribuutit
+     * @param array $attributes luokan attribuutit
      */
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -54,7 +54,7 @@ class Kategoria extends BaseModel {
      * Metodi hakee tietokohdetta vastaavasta tietokantataulusta rivin 
      * parametrina annetun id:n perusteella.
      * 
-     * @param type $id haettavan kohteen id
+     * @param integer $id haettavan kohteen id
      * @return Kategoria löydetty rivi 
      */
     public static function find($id) {
@@ -75,7 +75,7 @@ class Kategoria extends BaseModel {
      * Metodi hakee tietokohdetta vastaavasta tietokantataulusta rivin
      * parametrina annetun nimen perusteella.
      * 
-     * @param type $nimi haettavan kohteen nimi
+     * @param string $nimi haettavan kohteen nimi
      * @return Kategoria löydetty rivi
      */
     public static function findBy($nimi) {
@@ -97,7 +97,7 @@ class Kategoria extends BaseModel {
     /**
      * Metodi hakee Kategoria-tietokantataulusta hakusanan sisältäviä rivejä.
      * 
-     * @param type $haku hakusana
+     * @param string $haku hakusana
      * @return array hakutulokset
      */
     public static function searchBy($haku) {
@@ -130,7 +130,7 @@ class Kategoria extends BaseModel {
      * Metodi hakee kaikki parametrina annettuun ruokaan liittyvät kategoriat 
      * näiden kahden tietokohteen välisestä liitostaulusta.
      * 
-     * @param type $ruoka_id haettavan ruoan id
+     * @param integer $ruoka_id haettavan ruoan id
      * @return array löydetyt kategoriat
      */
     public static function kategoriat($ruoka_id) {
@@ -154,8 +154,8 @@ class Kategoria extends BaseModel {
      * Metodi vertaa parametrina annetun listan lategorioita toisena parametrina annetun 
      * ruokaan liitettyihin kategorioihin ja tilanteen mukaan liittää ruokaan uuden kategorian tai poistaa sen.
      * 
-     * @param type $valitut lista kategorioita
-     * @param type $ruoka_id
+     * @param array $valitut lista kategorioita
+     * @param integer $ruoka_id
      */
     public function paivitaKategoriat($valitut, $ruoka_id) {
         $kategoriat = self::kategoriat($ruoka_id);
@@ -181,7 +181,7 @@ class Kategoria extends BaseModel {
      * Metodi liittää parametrina annettuun ruokaan uuden kategorian 
      * lisäämällä rivin tietokohteiden liitostauluun.
      * 
-     * @param type $ruoka_id
+     * @param integer $ruoka_id
      */
     public function lisaaRuokaKategoria($ruoka_id) {
         $query = DB::connection()->prepare('INSERT INTO RuokaKategoria VALUES '
@@ -195,7 +195,7 @@ class Kategoria extends BaseModel {
      * Metodi poistaa parametrina annetusta ruoan ja kategorian liittävän rivin 
      * tietokohteiden välisestä liitostaulusta.
      * 
-     * @param type $ruoka_id
+     * @param integer $ruoka_id
      */
     public function poistaRuokaKategoria($ruoka_id) {
         $query = DB::connection()->prepare('DELETE FROM RuokaKategoria '

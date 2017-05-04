@@ -13,7 +13,7 @@ class Kayttaja extends BaseModel {
      * Konstruktori, joka kutsuu BaseModel-yliluokan construct-metodia
      * ja määrittää luokanvalidaatiometodien nimet.
      * 
-     * @param type $attributes luokan attribuutit
+     * @param array $attributes luokan attribuutit
      */
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -67,7 +67,7 @@ class Kayttaja extends BaseModel {
      * Metodi hakee tietokohdetta vastaavasta tietokantataulusta rivin 
      * parametrina annetun id:n perusteella.
      * 
-     * @param type $id haettavan kohteen id
+     * @param integer $id haettavan kohteen id
      * @return Kayttaja löydetty rivi
      */
     public static function find($id) {
@@ -121,8 +121,8 @@ class Kayttaja extends BaseModel {
      * Metodi hakee rivin tietokohdetta vastaavasta tietokantataulusta annettujen parametrien perusteella
      * ja palautttaa sitä vastaavan Kayttaja-olion tai null, jos riviä ei löytynyt.
      * 
-     * @param type $username haettava käyttäjätunnus
-     * @param type $password haettava salasana
+     * @param string $username haettava käyttäjätunnus
+     * @param string $password haettava salasana
      * @return Kayttaja tai null
      */
     public static function authenticate($username, $password) {
@@ -146,7 +146,7 @@ class Kayttaja extends BaseModel {
      * Metodi tarkistaa, löytyykö tietokodetta vastaavasta tietokantataulusta 
      * parametrina annettua käyttäjätunnusta ja palauttaa true/false sen mukaisesti.
      * 
-     * @param type $tunnus
+     * @param string $tunnus
      * @return boolean true, jos löytyy ja false jos ei löydy
      */
     public static function onkoKaytossa($tunnus) {
@@ -187,7 +187,7 @@ class Kayttaja extends BaseModel {
      * parametrina annetun salasanan sekä käyttäjätunnuksen ja id:n perusteella 
      * ja palauttaa totuusarvon sen mukaisesti.
      * 
-     * @param type $salasana haettava salasana
+     * @param string $salasana haettava salasana
      * @return boolean true, jos rivi löytyi ja false jos ei
      */
     public function tarkistaSalasana($salasana) {

@@ -31,9 +31,9 @@ class BaseModel {
     public function validate_string_length($string, $min, $max) {
         $errors = array();
 
-        if ($string == '' || $string == NULL) {
-            $errors[] = 'Kenttä ei saa olla tyhjä!';
-        }
+//        if ($string == '' || $string == NULL) {
+//            $errors[] = 'Kenttä ei saa olla tyhjä!';
+//        }
         if (strlen($string) < $min) {
             $errors[] = 'Pituus vähintään ' . $min . ' merkkiä';
         }

@@ -11,7 +11,7 @@ class ArkistoController extends BaseController {
      * Metodi näyttää sovelluksen etusivunäkymän.
      */
     public static function index() {
-        View::make('base.html');
+        View::make('arkisto/start.html');
     }
 
     /**

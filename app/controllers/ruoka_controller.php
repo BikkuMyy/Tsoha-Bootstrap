@@ -8,7 +8,7 @@
 class RuokaController extends BaseController {
 
     /**
-     * metodi näyttää kirjautuneen käyttäjän kaikkien ruokalajien listauksen.
+     * Metodi näyttää kirjautuneen käyttäjän kaikkien ruokalajien listauksen.
      * 
      */
     public static function index() {
@@ -19,7 +19,7 @@ class RuokaController extends BaseController {
     /**
      * Metodi näyttää parametrina saamansa ruoan esittelysivun.
      * 
-     * @param type $id
+     * @param integer $id
      */
     public static function single($id) {
         $ruoka = Ruoka::find($id);
@@ -72,7 +72,7 @@ class RuokaController extends BaseController {
      * Metodi näyttää parametrina saamansa ruoan muokkaussivun, 
      * jos kirjatunut käyttäjä on myös ruoan lisääjä.
      * 
-     * @param type $ruoka_id
+     * @param integer $ruoka_id
      */
     public static function modify($ruoka_id) {
         $ruoka = Ruoka::find($ruoka_id);
@@ -100,7 +100,7 @@ class RuokaController extends BaseController {
      * ja kutsuu tietokantataulun riviä muokkaavaa metodia sekä
      * uudelleenohjaa kyseisen ruoan esittelysivulle..
      * 
-     * @param type $id
+     * @param integer $id
      */
     public function update($id) {
         $params = $_POST;
@@ -134,7 +134,7 @@ class RuokaController extends BaseController {
     /**
      * Metodi näyttää ruokalajin poistonäkymän,
      * jos kirjautunut käyttäjä on ruokalajin lisääjä.
-     * @param type $id
+     * @param integer $id
      */
     public static function delete($id) {
         $ruoka = Ruoka::find($id);
@@ -152,7 +152,7 @@ class RuokaController extends BaseController {
      * Metodi kutsuu parametrina saamansa ruokalakin tietokannasta poistavaa metodia
      * ja uudelleenohjaa ruokalajien listaussivulle.
      * 
-     * @param type $id poistettavan id
+     * @param integer $id poistettavan id
      */
     public static function remove($id) {
         $ruoka = new Ruoka(array('id' => $id));
@@ -193,7 +193,7 @@ class RuokaController extends BaseController {
      * Apumetodi, joka tarkistaa, onko parametrina annetulla listalla teksti 
      * 'Valitse...' ja palauttaa listan, josta se on poistettu.
      * 
-     * @param type $lista
+     * @param array $lista
      * @return array parametrina saatu lista, josta teksti mahd. poistettu
      */
     public static function tarkista($lista) {

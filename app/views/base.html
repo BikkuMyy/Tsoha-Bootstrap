@@ -41,6 +41,7 @@
                     {% if user_logged_in %}
                     <ul class="nav navbar-nav">
                         <li><a href="{{base_path}}/etusivu" class="btn btn-default">Oma etusivu</a></li>
+                        <li><a href="{{base_path}}/ruokalajit" class="btn btn-default">Ruokalajit</a></li>
                         <li><a href="{{base_path}}/settings" class="btn btn-default">Asetukset</a></li>
                         <li><a href="{{base_path}}/haku" class="btn btn-default">Haku</a></li>
                     </ul>
@@ -60,27 +61,27 @@
                 </div>
             </div>
         </nav>
+    
+    {% if user_removed %}
+    <div class="alert alert-info">
+        {{user_removed}}
+    </div>
+    {% endif %}
 
-        {% if user_removed %}
-        <div class="alert alert-info">
-            {{user_removed}}
-        </div>
-        {% endif %}
+    <div id="main-container">
+        <!-- Dynaaminen sisältö tulee tähän -->
+        {% block content %}{% endblock %}
+    </div>
 
-        <div id="main-container">
-            <!-- Dynaaminen sisältö tulee tähän -->
-            {% block content %}{% endblock %}
-        </div>
+    {% block body %}
+    <!-- jQuery -->
+    <script src="{{base_path}}/vendor/jquery.min.js"></script>
 
-        {% block body %}
-        <!-- jQuery -->
-        <script src="{{base_path}}/vendor/jquery.min.js"></script>
+    <!-- Bootstrap (skriptitiedosto) -->
+    <script src="{{base_path}}/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-        <!-- Bootstrap (skriptitiedosto) -->
-        <script src="{{base_path}}/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-        <!-- Oma skriptitiedostomme -->
-        <script src="{{base_path}}/assets/js/site.js"></script>
-        {% endblock %}
-    </body>
+    <!-- Oma skriptitiedostomme -->
+    <script src="{{base_path}}/assets/js/site.js"></script>
+    {% endblock %}
+</body>
 </html>

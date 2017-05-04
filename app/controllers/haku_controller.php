@@ -7,6 +7,9 @@
  */
 class HakuController extends BaseController {
 
+    /**
+     * Metodi näyttää hakunäkymän.
+     */
     public static function search() {
         $ainekset = Aines::all();
         $kategoriat = Kategoria::all();
@@ -14,6 +17,10 @@ class HakuController extends BaseController {
         View::make('haku/search.html', array('ainekset' => $ainekset, 'kategoriat' => $kategoriat));
     }
 
+    /**
+     * Metodi kutsuu toteuttaa haun tietokannasta sen tyypistä riippuen
+     * ja joko uudelleenohjaa tuloksiin tai palauttaa hakusivulle.
+     */
     public static function makeSearch() {
         $params = $_POST;
         $ruoat = array();
@@ -43,10 +50,17 @@ class HakuController extends BaseController {
         Redirect::to('/tulokset', array('ruoat' => $ruoat));
     }
 
+    /**
+     * Metodi näyttää haun tulokset listaavan sivun.
+     */
     public static function results() {
         View::make('haku/results.html');
     }
 
+    /**
+     * Metodi kutsuu ruokia, kategorioita tai aineksia hakusanan perusteella hakevia metodeja
+     * ja lopuksi uudelleenohjaa tuloksiin tai palauttaa hakusivulle.
+     */
     public static function hakusanaHaku() {
         $ruoat = self::haeRuokia();
         $ainekset = self::haeAineksia();
@@ -61,6 +75,10 @@ class HakuController extends BaseController {
             'kategoriat' => $kategoriat));
     }
 
+    /**
+     * Metodi hakee aineksia tietokannasta parametrina annetun hakusanan perusteella.
+     * @return array haun tulokset
+     */
     public static function haeAineksia() {
         $params = $_POST;
         if (isset($params['ingredient'])) {
@@ -69,6 +87,10 @@ class HakuController extends BaseController {
         return array();
     }
 
+    /**
+     * Metodi hakee kategorioita tietokannasta parametrina annetun hakusanan perusteella.
+     * @return array haun tulokset
+     */
     public static function haeKategorioita() {
         $params = $_POST;
         if (isset($params['category'])) {
@@ -77,12 +99,15 @@ class HakuController extends BaseController {
         return array();
     }
 
+    /**
+     * Metodi hakee ruokalajeja tietokannasta parametrina annetun hakusanan perusteella.
+     * @return array tulokset
+     */
     public static function haeRuokia() {
         $params = $_POST;
         $ruoat = array();
         if (isset($params['all'])) {
-            $tulokset = Ruoka::searchBy($params['searchword']);
-            $ruoat = array_merge($ruoat, $tulokset);
+            $ruoat = Ruoka::searchBy($params['searchword']);
         }
 //        if (isset($params['own'])) {
 //            $tulokset = Ruoka::searchBy($params['searchword'], $kayttaja);

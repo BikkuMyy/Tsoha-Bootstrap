@@ -13,7 +13,7 @@ class Aines extends BaseModel {
      * Konstruktori, joka kutsuu BaseModel-yliluokan construct-metodia
      * ja määrittää luokan validaatiometodien nimet.
      * 
-     * @param type $attributes luokan attribuutit
+     * @param array $attributes luokan attribuutit
      */
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -55,7 +55,7 @@ class Aines extends BaseModel {
      * Metodi hakee tietokohdetta vastaavasta tietokantataulusta rivin 
      * parametrina annetun id:n perusteella.
      * 
-     * @param type $id haettavan kohteen id
+     * @param integer $id haettavan kohteen id
      * @return Aines löydetty rivi 
      */
     public static function find($id) {
@@ -76,7 +76,7 @@ class Aines extends BaseModel {
      * Metodi hakee tietokohdetta vastaavasta tietokantataulusta rivin
      * parametrina annetun nimen perusteella.
      * 
-     * @param type $nimi haettavan kohteen nimi
+     * @param string $nimi haettavan kohteen nimi
      * @return Aines löydetty rivi
      */
     public static function findBy($nimi) {
@@ -98,7 +98,7 @@ class Aines extends BaseModel {
     /**
      * Metodi hakee Aines-tietokantataulusta hakusanan sisältäviä rivejä.
      * 
-     * @param type $haku hakusana
+     * @param string $haku hakusana
      * @return array hakutulokset
      */
     public static function searchBy($haku){
@@ -131,7 +131,7 @@ class Aines extends BaseModel {
      * Metodi hakee kaikki parametrina annettuun ruokaan liittyvät ainekset
      * näiden kahden tietokohteen välisestä liitostaulusta.
      * 
-     * @param type $ruoka_id haettavan ruoan id
+     * @param integer $ruoka_id haettavan ruoan id
      * @return array löydetyt ainekset
      */
     public static function ainekset($ruoka_id) {
@@ -155,7 +155,7 @@ class Aines extends BaseModel {
      * ruokaan liitettyihin aineksiin ja tilanteen mukaan liittää ruokaan uuden aineksen tai poistaa sen.
      * 
      * @param array $valitut lista aineksia
-     * @param type $ruoka_id
+     * @param integer $ruoka_id
      */
     public function paivitaAinekset($valitut, $ruoka_id) {
         $ainekset = self::ainekset($ruoka_id);
@@ -181,7 +181,7 @@ class Aines extends BaseModel {
      * Metodi liittää parametrina annettuun ruokaan uuden aineksen 
      * lisäämällä rivin tietokohteiden liitostauluun.
      * 
-     * @param type $ruoka_id
+     * @param integer $ruoka_id
      */
     public function lisaaRuokaAines($ruoka_id) {
         $query = DB::connection()->prepare('INSERT INTO RuokaAines VALUES '
@@ -195,7 +195,7 @@ class Aines extends BaseModel {
      * Metodi poistaa parametrina annetusta ruoan ja aineksen liittävän rivin 
      * tietokohteiden välisestä liitostaulusta.
      * 
-     * @param type $ruoka_id
+     * @param integer $ruoka_id
      */
     public function poistaRuokaAines($ruoka_id) {
         $query = DB::connection()->prepare('DELETE FROM RuokaAines '
